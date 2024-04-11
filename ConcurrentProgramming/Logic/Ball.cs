@@ -10,17 +10,21 @@ namespace Logic
 {
     internal class Ball : IBall
     {
-        private float x;
-        private float y;
-        private float vx;
-        private float vy;
-        public Ball(float width, float height)
+        private Double x;
+        private Double y;
+        private Double vx;
+        private Double vy;
+        public Ball(Double width, Double height)
         {
-            x = Random.NextDouble() * width;
-            y = Random.NextDouble() * height;
-            
+            x = width;
+            y = height;
+
         }
 
+        public Tuple<Double, Double> GetPosition()
+        {
+            return Tuple.Create(x, y);
+        }
         public void Move()
         {
             x += vx;

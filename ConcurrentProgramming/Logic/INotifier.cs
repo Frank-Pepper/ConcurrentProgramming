@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data
+namespace Logic
 {
-    public interface IBall
+    internal interface INotifier
     {
-        void Move();
     }
 }

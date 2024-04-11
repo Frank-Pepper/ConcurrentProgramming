@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data
+using Data;
+
+namespace Logic
 {
-    public interface IBall
+    internal interface IChecker
     {
-        void Move();
+        void Check(List<IBall> Balls);
     }
 }
