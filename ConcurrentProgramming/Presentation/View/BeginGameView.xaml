@@ -1,0 +1,20 @@
+﻿<Window x:Class="Presentation.View.BeginGameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation.View"
+             mc:Ignorable="d" 
+             Width="600" Height="400" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" FontSize="18" HorizontalAlignment="Center">Wpisz liczbę kul</TextBlock>
+        <TextBox Grid.Row="1" HorizontalAlignment="Center" Width="100" ></TextBox>
+        <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click">Rozpocznij Grę</Button>
+    </Grid>
+
+</Window>

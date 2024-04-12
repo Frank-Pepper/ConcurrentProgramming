@@ -15,12 +15,20 @@ namespace Logic
         {
             for (int i = 0; i < Balls.Count; i++)
             {
-                bool collision = false;
                 int ballRadius = 0; // TODO Find nice number
-                for (int j = i+1;  j < Balls.Count; j++)
+                IBall thisBall = Balls[i];
+                Tuple<Double, Double> coordinates = thisBall.GetPosition();
+                for (int j = i + 1; j < Balls.Count; j++)
                 {
-                    
-                    Double distance
+                    IBall otherBall = Balls[j];
+                    Tuple<Double, Double> otherCoordinates = otherBall.GetPosition();
+                    Double x = (coordinates.Item1 - otherCoordinates.Item1);
+                    Double y = (coordinates.Item2 - otherCoordinates.Item2);
+                    Double distance = x * x + y * y;
+                    if (distance < (4 * ballRadius * ballRadius))
+                    {
+                        // TODO wait for sync change direction velocity
+                    }
                 }
             }
         }

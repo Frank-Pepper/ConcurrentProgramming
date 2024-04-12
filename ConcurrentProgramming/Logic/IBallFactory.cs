@@ -11,7 +11,7 @@ namespace Logic
 {
     internal interface IBallFactory
     {
-        List<IBall> Create(int number, Double width, Double height);
+        List<IBall> Create(int number, Double width, Double height);    
       
     }
 }

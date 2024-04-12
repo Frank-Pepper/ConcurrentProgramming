@@ -47,6 +47,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="IBallFactory.cs" />
     <Compile Include="IChecker.cs" />
+    <Compile Include="INotifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

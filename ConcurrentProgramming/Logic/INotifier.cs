@@ -8,5 +8,6 @@ namespace Logic
 {
     internal interface INotifier
     {
+        List<Tuple<Double, Double>> SendData();
     }
 }

@@ -9,5 +9,6 @@ namespace Data
     public interface IBall
     {
         void Move();
+        Tuple<Double, Double> GetPosition();
     }
 }
