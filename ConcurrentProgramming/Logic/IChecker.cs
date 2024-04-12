@@ -8,8 +8,8 @@ using Data;
 
 namespace Logic
 {
-    internal interface IChecker
+    public interface IChecker
     {
-        void Check(List<IBall> Balls);
+        void Check(IBallRepository Balls);
     }
 }

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic
+namespace Data
 {
-    public class Class1
+    public interface IBallFactory
     {
+        IBall Create(Double x, Double y);
     }
 }

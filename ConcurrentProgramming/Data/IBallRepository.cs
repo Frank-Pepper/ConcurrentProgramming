@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public class Class1
+    public interface IBallRepository : IDisposable
     {
+        IEnumerable<IBall> GetAll();
+        void Add(IBall b);
+        void Remove(IBall b);
     }
 }

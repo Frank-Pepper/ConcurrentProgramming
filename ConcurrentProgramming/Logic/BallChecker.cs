@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    internal class BallChecker : IChecker
+    public class BallChecker : IChecker
     {
         public BallChecker() { }
 
-        void IChecker.Check(List<IBall> Balls)
+        void IChecker.Check(IBallRepository Balls)
         {
-            for (int i = 0; i < Balls.Count; i++)
+            List<IBall> BallsList = (List<IBall>)Balls.GetAll();
+            for (int i = 0; i < BallsList.Count; i++)
             {
                 int ballRadius = 0; // TODO Find nice number
-                IBall thisBall = Balls[i];
+                IBall thisBall = BallsList[i];
                 Tuple<Double, Double> coordinates = thisBall.GetPosition();
-                for (int j = i + 1; j < Balls.Count; j++)
+                for (int j = i + 1; j < BallsList.Count; j++)
                 {
-                    IBall otherBall = Balls[j];
+                    IBall otherBall = BallsList[j];
                     Tuple<Double, Double> otherCoordinates = otherBall.GetPosition();
                     Double x = (coordinates.Item1 - otherCoordinates.Item1);
                     Double y = (coordinates.Item2 - otherCoordinates.Item2);
