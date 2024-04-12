@@ -13,7 +13,7 @@ namespace Logic
 
         void IChecker.Check(IBallRepository Balls)
         {
-            List<IBall> BallsList = (List<IBall>)Balls.GetAll();
+            List<IBall> BallsList = Balls.GetAll().ToList();
             for (int i = 0; i < BallsList.Count; i++)
             {
                 int ballRadius = 0; // TODO Find nice number

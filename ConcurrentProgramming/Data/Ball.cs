@@ -18,7 +18,6 @@ namespace Data
             Y = y;
 
         }
-
         public Tuple<Double, Double> GetPosition()
         {
             return Tuple.Create(X, Y);
