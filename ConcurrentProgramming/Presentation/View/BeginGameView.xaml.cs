@@ -27,7 +27,7 @@ namespace Presentation.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TableView tableView = new TableView();
+            TableView tableView = new TableView(); // TODO find another way to change window
             tableView.Show();
             this.Close();
         }

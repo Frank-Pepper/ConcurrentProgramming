@@ -4,8 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.View"
+             xmlns:vm="clr-namespace:Presentation.ViewModel"
              mc:Ignorable="d" 
              Width="600" Height="400" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -13,8 +17,8 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" FontSize="18" HorizontalAlignment="Center">Wpisz liczbę kul</TextBlock>
-        <TextBox Grid.Row="1" HorizontalAlignment="Center" Width="100" ></TextBox>
-        <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click">Rozpocznij Grę</Button>
+        <TextBox Grid.Row="1" HorizontalAlignment="Center" Width="100" Text="{Binding BallNumber}" ></TextBox>
+        <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding StartCommand}" Click="Button_Click">Rozpocznij Grę</Button>
     </Grid>
 
 </Window>

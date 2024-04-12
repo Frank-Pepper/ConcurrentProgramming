@@ -8,5 +8,6 @@ namespace Presentation.Model
 {
     public class Class1
     {
+        //TODO send data to vm
     }
 }
