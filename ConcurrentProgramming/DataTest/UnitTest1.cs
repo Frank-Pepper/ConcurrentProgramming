@@ -1,4 +1,4 @@
-namespace LogicTest
+namespace DataTest
 {
     [TestClass]
     public class UnitTest1
