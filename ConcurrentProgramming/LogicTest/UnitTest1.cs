@@ -1,3 +1,5 @@
+using NSubstitute;
+
 namespace LogicTest
 {
     [TestClass]
