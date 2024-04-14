@@ -62,12 +62,22 @@ namespace Logic
                         balls[i].SetVelocityX(newVX);
 
                     }
+                    else
+                    {
+                        newX = coordinates.Item1 + velocity.Item1;
+                        balls[i].SetPositionX(newX);
+                    }
                     if(coordinates.Item2 + velocity.Item2 > _height || coordinates.Item2 + velocity.Item2 < 10)
                     {
                         newY = coordinates.Item2 - velocity.Item2;
                         newVY = velocity.Item2 * (-1);
                         balls[i].SetPositionX(newY);
                         balls[i].SetVelocityX(newVY);
+                    }
+                    else
+                    {
+                        newY = coordinates.Item2 + velocity.Item2;
+                        balls[i].SetPositionY(newY);
                     }
                 }
             }
