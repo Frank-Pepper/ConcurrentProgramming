@@ -29,16 +29,18 @@ namespace Logic
                 _height = height;
                 Double xPosition;
                 Double yPosition;
-                Double xLeftLimit = 10;
+                Double xVelocity;
+                Double yVelocity;
                 Double xRightLimit = width - 10;
-                Double yTopLimit = 10;
                 Double yBottomLimit = height - 10;
 
                 for (int i = 0; i < number; i++)
                 {
-                    xPosition = xLeftLimit + (xRightLimit - xLeftLimit) * _random.NextDouble();
-                    yPosition = yTopLimit + (yBottomLimit - yTopLimit) * _random.NextDouble();
-                    _ballRepository.Add(IAbstractDataAPI.GetBall(10, xPosition, yPosition, _random.NextDouble(), _random.NextDouble()));
+                    xPosition = xRightLimit * _random.NextDouble();
+                    yPosition = yBottomLimit * _random.NextDouble();
+                    xVelocity = 0.5 * (_random.Next(0, 2) * 2 - 1);
+                    yVelocity = 0.5 * (_random.Next(0, 2) * 2 - 1);
+                    _ballRepository.Add(IAbstractDataAPI.GetBall(10, xPosition, yPosition, xVelocity, yVelocity));
                 }
             }
             public void Move()
@@ -59,7 +61,7 @@ namespace Logic
                     newY = y + vy;
 
                     
-                    if (newX < 10 || newX > _width - 10)
+                    if (newX < 0 || newX > _width - 10)
                     {
                         newX = x - vx; 
                         newVX = -vx; 
@@ -69,7 +71,7 @@ namespace Logic
                         newVX = vx; 
                     }
 
-                    if (newY < 10 || newY > _height - 10)
+                    if (newY < 0 || newY > _height - 10)
                     {
                         newY = y - vy; 
                         newVY = -vy; 
