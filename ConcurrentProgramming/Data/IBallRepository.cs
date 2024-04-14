@@ -8,7 +8,7 @@ namespace Data
 {
     public interface IBallRepository : IDisposable
     {
-        IEnumerable<IBall> GetAll();
+        List<IBall> GetAll();
         void Add(IBall b);
         void Remove(IBall b);
     }

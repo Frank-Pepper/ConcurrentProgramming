@@ -56,9 +56,9 @@ namespace Data
         private class BallRepository : IBallRepository
         {
             private readonly List<IBall> _ballRepository = new List<IBall>();
-            public IEnumerable<IBall> GetAll()
+            public List<IBall> GetAll()
             {
-                return new ReadOnlyCollection<IBall>(_ballRepository);
+                return new List<IBall>(_ballRepository);
             }
             public void Add(IBall ball)
             {

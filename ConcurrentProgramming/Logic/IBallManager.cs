@@ -12,9 +12,10 @@ namespace Logic
 {
     public interface IBallManager
     {
-        void generate(ObservableCollection<IBall> colection, int number, Double width, Double height);
+        void generate(int number, Double width, Double height);
         void Create(int number, Double width, Double height);
         void Move();
+        List<Tuple<Double, Double>> GetCoordinates();
         void Reset();
     }
 }

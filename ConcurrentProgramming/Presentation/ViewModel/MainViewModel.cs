@@ -27,13 +27,18 @@ namespace Presentation.ViewModel
             //_coordinates.Add(Tuple.Create(330.0, 354.0));
 
             var manager = IAbstractLogicAPI.GetBallManager();
-            _coordinates = new ObservableCollection<IBall>();
+            _coordinates = new ObservableCollection<Point>();
+            _coordinates.Add(new Point(0, 0));
+            _coordinates.Add(new Point(10, 10));
+            _coordinates.Add(new Point(110, 110));
+            //_coordinates = new ObservableCollection<Tuple<Double, Double>>();
+            SetCommand = new RelayCommand(() => model.startGame(_number));
+            StartCommand = new RelayCommand(() => model.move(_coordinates));
 
-            StartCommand = new RelayCommand(() => manager.generate(_coordinates, _number, _rectWidth, _rectHeigth));
-            
-
+            _coordinates.Add(new Point(0, 0));
+            _coordinates.Add(new Point(10, 10));
+            _coordinates.Add(new Point(110, 110));
         }
-        private readonly ObservableCollection<IBall> _coordinates;
         private int _number;
         public int Number
         {
@@ -53,8 +58,8 @@ namespace Presentation.ViewModel
         {
             get => _ballRadius;
         }
-
-        public ObservableCollection<IBall> Coordinates
+        private ObservableCollection<Point> _coordinates;
+        public ObservableCollection<Point> Coordinates
         {
             get => _coordinates;
             set
@@ -63,6 +68,10 @@ namespace Presentation.ViewModel
                 RaisePropertyChanged();
             }
         }
+
+
+
+        public ICommand SetCommand { get; set; }
         public ICommand StartCommand { get; set; }
     }
 }
