@@ -37,23 +37,15 @@ namespace Data
                 return Tuple.Create(X, Y);
             }
 
-            public void SetPositionX(Double x)
+            public void SetPosition(Double x, Double y)
             {
                 X = x;
-            }
-
-            public void SetPositionY(Double y)
-            {
                 Y = y;
             }
 
-            public void SetVelocityX(Double vx)
+            public void SetVelocity(Double vx, Double vy)
             {
                 VX = vx;
-            }
-
-            public void SetVelocityY(Double vy)
-            {
                 VY = vy;
             }
 
@@ -61,7 +53,6 @@ namespace Data
             {
                 return Tuple.Create(VX, VY);
             }
-
 
         }
 

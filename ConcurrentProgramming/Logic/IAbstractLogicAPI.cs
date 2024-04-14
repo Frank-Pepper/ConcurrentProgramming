@@ -44,41 +44,43 @@ namespace Logic
             public void Move()
             {
                 List<IBall> balls = _ballRepository.GetAll();
-                Tuple<Double, Double> coordinates;
-                Tuple<Double, Double> velocity;
-                Double newX;
-                Double newY;
-                Double newVX;
-                Double newVY;
-                for (int i = 0; i < balls.Count; i++)
+                double newX;
+                double newY;
+                double newVX;
+                double newVY;
+                foreach (IBall ball in balls)
                 {
-                    coordinates = balls[i].GetPosition();
-                    velocity = balls[i].GetVelocity();
-                    if(coordinates.Item1 + velocity.Item1 > _width || coordinates.Item1 + velocity.Item1 < 10)
-                    {
-                        newX = coordinates.Item1 - velocity.Item1;
-                        newVX = velocity.Item1 * (-1);
-                        balls[i].SetPositionX(newX);
-                        balls[i].SetVelocityX(newVX);
+                    double x = ball.GetPosition().Item1;
+                    double y = ball.GetPosition().Item2;
+                    double vx = ball.GetVelocity().Item1;
+                    double vy = ball.GetVelocity().Item2;
 
+                    newX = x + vx;
+                    newY = y + vy;
+
+                    
+                    if (newX < 10 || newX > _width - 10)
+                    {
+                        newX = x - vx; 
+                        newVX = -vx; 
                     }
                     else
                     {
-                        newX = coordinates.Item1 + velocity.Item1;
-                        balls[i].SetPositionX(newX);
+                        newVX = vx; 
                     }
-                    if(coordinates.Item2 + velocity.Item2 > _height || coordinates.Item2 + velocity.Item2 < 10)
+
+                    if (newY < 10 || newY > _height - 10)
                     {
-                        newY = coordinates.Item2 - velocity.Item2;
-                        newVY = velocity.Item2 * (-1);
-                        balls[i].SetPositionX(newY);
-                        balls[i].SetVelocityX(newVY);
+                        newY = y - vy; 
+                        newVY = -vy; 
                     }
                     else
                     {
-                        newY = coordinates.Item2 + velocity.Item2;
-                        balls[i].SetPositionY(newY);
+                        newVY = vy; 
                     }
+
+                    ball.SetPosition(newX, newY);
+                    ball.SetVelocity(newVX, newVY);
                 }
             }
             public void Reset()

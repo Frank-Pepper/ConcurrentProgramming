@@ -8,10 +8,8 @@ namespace Data
 {
     public interface IBall
     {
-        void SetPositionX(Double x);
-        void SetPositionY(Double y);
-        void SetVelocityX(Double vx);
-        void SetVelocityY(Double xy);
+        void SetPosition(Double x, Double y);
+        void SetVelocity(Double vx, Double vy);
         Tuple<Double, Double> GetPosition();
         Tuple<Double, Double> GetVelocity();
     }
