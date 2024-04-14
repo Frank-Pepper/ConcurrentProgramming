@@ -29,9 +29,9 @@ namespace Logic
                 _height = height;
                 Double xPosition;
                 Double yPosition;
-                Double xLeftLimit = width + 10;
+                Double xLeftLimit = 10;
                 Double xRightLimit = width - 10;
-                Double yTopLimit = height + 10;
+                Double yTopLimit = 10;
                 Double yBottomLimit = height - 10;
 
                 for (int i = 0; i < number; i++)
