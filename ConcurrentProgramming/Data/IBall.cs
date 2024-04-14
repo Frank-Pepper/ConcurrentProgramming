@@ -8,7 +8,7 @@ namespace Data
 {
     public interface IBall
     {
-        //void Move();
+        void Move();
         Tuple<Double, Double> GetPosition();
     }
 }

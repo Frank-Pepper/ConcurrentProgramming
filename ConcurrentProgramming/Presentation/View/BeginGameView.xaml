@@ -25,9 +25,9 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Grid.Column="0" FontSize="18" HorizontalAlignment="Center">Wpisz liczbę kul</Label>
-            <Button Grid.Row="0" Grid.Column="1" FontSize="18" HorizontalAlignment="Center" Command="{Binding MinusButton}">Odejmij</Button>
+            <Button Grid.Row="0" Grid.Column="1" FontSize="18" HorizontalAlignment="Center" >Odejmij</Button>
             <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Number}" />
-            <Button Grid.Row="0" Grid.Column="3" FontSize="18" HorizontalAlignment="Center" Command="{Binding AddButton}">Dodaj</Button>
+            <Button Grid.Row="0" Grid.Column="3" FontSize="18" HorizontalAlignment="Center" >Dodaj</Button>
             <Button Grid.Row="0" Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding StartCommand}" Margin="42,6,0,0">Rozpocznij Grę</Button>
 
         </Grid>
@@ -40,8 +40,8 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>
                     <Style>
-                    <Setter Property="Canvas.Left" Value="{Binding Item1}"/>
-                    <Setter Property="Canvas.Top" Value="{Binding Item2}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
                     </Style>
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>

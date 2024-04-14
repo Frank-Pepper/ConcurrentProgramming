@@ -8,6 +8,8 @@ using Accessibility;
 using Presentation.ViewModel.Command;
 using Presentation.Model;
 using System.Collections.ObjectModel;
+using Logic;
+using Data;
 
 namespace Presentation.ViewModel
 {
@@ -20,18 +22,18 @@ namespace Presentation.ViewModel
             _rectHeigth = model.RectangleHeigth;
             _rectWidth = model.RectangleWidth;
 
-            _coordinates = new ObservableCollection<Tuple<double, double>>();
-            _coordinates.Add(Tuple.Create(230.0, 154.0));
-            _coordinates.Add(Tuple.Create(330.0, 354.0));
+            //_coordinates = new ObservableCollection<Tuple<double, double>>();
+            //_coordinates.Add(Tuple.Create(230.0, 154.0));
+            //_coordinates.Add(Tuple.Create(330.0, 354.0));
 
-            StartCommand = new StartCommand();
-   
+            var manager = IAbstractLogicAPI.GetBallManager();
+            _coordinates = new ObservableCollection<IBall>();
+
+            StartCommand = new RelayCommand(() => manager.generate(_coordinates, _number, _rectWidth, _rectHeigth));
             
-            
-            //AddButton = new IncreaseCommand(ref Number);
-            //MinusButton = new DecreaseCommand(ref Number);
+
         }
-        private readonly ObservableCollection<Tuple<Double, Double>> _coordinates;
+        private readonly ObservableCollection<IBall> _coordinates;
         private int _number;
         public int Number
         {
@@ -52,7 +54,7 @@ namespace Presentation.ViewModel
             get => _ballRadius;
         }
 
-        public ObservableCollection<Tuple<Double, Double>> Coordinates
+        public ObservableCollection<IBall> Coordinates
         {
             get => _coordinates;
             set
@@ -61,8 +63,6 @@ namespace Presentation.ViewModel
                 RaisePropertyChanged();
             }
         }
-        public ICommand AddButton { get; set; }
-        public ICommand MinusButton { get; set; }
         public ICommand StartCommand { get; set; }
     }
 }

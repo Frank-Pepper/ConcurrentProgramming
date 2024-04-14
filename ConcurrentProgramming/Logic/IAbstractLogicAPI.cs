@@ -1,6 +1,7 @@
 ﻿using Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Logic
@@ -20,7 +21,17 @@ namespace Logic
             {
                 _ballRepository = ballRepository ?? IAbstractDataAPI.GetBallRepository();
             }
-
+            public void generate(ObservableCollection<IBall> colection, int number, Double width, Double height)
+            {
+                Double xPosition;
+                Double yPosition;
+                for (int i = 0; i < number; i++)
+                {
+                    xPosition = _random.NextDouble() * width;
+                    yPosition = _random.NextDouble() * height;
+                    colection.Add(IAbstractDataAPI.GetBall(xPosition, yPosition, _random.NextDouble(), _random.NextDouble(), width, height));
+                }
+            }
             public void Create(int number, Double width, Double height)
             {
                 Double xPosition;
@@ -29,7 +40,15 @@ namespace Logic
                 {
                     xPosition = _random.NextDouble() * width;
                     yPosition = _random.NextDouble() * height;
-                    _ballRepository.Add(IAbstractDataAPI.GetBall(xPosition, yPosition));
+                    _ballRepository.Add(IAbstractDataAPI.GetBall(xPosition, yPosition, _random.NextDouble(), _random.NextDouble(), width, height));
+                }
+            }
+            public void Move()
+            {
+                IEnumerator<IBall> balls = (IEnumerator<IBall>)_ballRepository.GetAll();
+                while (balls.MoveNext())
+                {
+                    balls.Current.Move();
                 }
             }
             public void Reset()

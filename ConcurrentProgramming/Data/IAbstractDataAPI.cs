@@ -7,9 +7,9 @@ namespace Data
 {
     public interface IAbstractDataAPI
     {
-        public static IBall GetBall(Double x, Double y)
+        public static IBall GetBall(Double x, Double y, Double vx, Double vy, Double width, Double height)
         {
-            return new Ball(x, y);
+            return new Ball(x, y, vx, vy, width, height);
         }
 
         public static IBallRepository GetBallRepository()
@@ -19,25 +19,38 @@ namespace Data
 
         private class Ball : IBall
         {
-            private Double X;
-            private Double Y;
-            //private Double VX;
-            //private Double VY;
-            public Ball(Double x, Double y)
+            public Double X { get; set; }
+            public Double Y { get; set; }
+            private Double VX;
+            private Double VY;
+            private Double W;
+            private Double H;
+            public Ball(Double x, Double y, Double vx, Double vy, Double width, Double height)
             {
                 X = x;
                 Y = y;
-
+                VX = vx; 
+                VY = vy;
+                W = width;
+                H = height;
             }
             public Tuple<Double, Double> GetPosition()
             {
                 return Tuple.Create(X, Y);
             }
-            //public void Move()
-            //{
-                //X += VX;
-                //Y += VY;
-            //}
+            public void Move()
+            {
+                X += VX;
+                Y += VY;
+                if (X > W || X < 0)
+                {
+                    VX = - VX;
+                }
+                if (Y > H || Y < 0)
+                {
+                    VX -= VX;
+                }
+            }
         }
 
         private class BallRepository : IBallRepository
