@@ -7,9 +7,9 @@ namespace Data
 {
     public interface IAbstractDataAPI
     {
-        public static IBall GetBall(Double x, Double y, Double vx, Double vy, Double width, Double height)
+        public static IBall GetBall(Double r, Double x, Double y, Double vx, Double vy)
         {
-            return new Ball(x, y, vx, vy, width, height);
+            return new Ball(r, x, y, vx, vy);
         }
 
         public static IBallRepository GetBallRepository()
@@ -19,38 +19,50 @@ namespace Data
 
         private class Ball : IBall
         {
+            public Double R { get; set; }
             public Double X { get; set; }
             public Double Y { get; set; }
-            private Double VX;
-            private Double VY;
-            private Double W;
-            private Double H;
-            public Ball(Double x, Double y, Double vx, Double vy, Double width, Double height)
+            private Double VX { get; set; }
+            private Double VY { get; set; }
+            public Ball(Double r, Double x, Double y, Double vx, Double vy)
             {
+                R = r;
                 X = x;
                 Y = y;
                 VX = vx; 
                 VY = vy;
-                W = width;
-                H = height;
             }
             public Tuple<Double, Double> GetPosition()
             {
                 return Tuple.Create(X, Y);
             }
-            public void Move()
+
+            public void SetPositionX(Double x)
             {
-                X += VX;
-                Y += VY;
-                if (X > W || X < 0)
-                {
-                    VX = - VX;
-                }
-                if (Y > H || Y < 0)
-                {
-                    VX -= VX;
-                }
+                X = x;
             }
+
+            public void SetPositionY(Double y)
+            {
+                Y = y;
+            }
+
+            public void SetVelocityX(Double vx)
+            {
+                VX = vx;
+            }
+
+            public void SetVelocityY(Double vy)
+            {
+                VY = vy;
+            }
+
+            public Tuple<Double, Double> GetVelocity()
+            {
+                return Tuple.Create(VX, VY);
+            }
+
+
         }
 
         private class BallRepository : IBallRepository

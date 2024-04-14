@@ -18,12 +18,11 @@ namespace Presentation.Model
 
         public override int RectangleHeigth => 400;
         public override int BallRadius => 10;
-
         public override List<Tuple<Double, Double>> Points { get; set; }
         public IBallManager manager { get; set; }
         public override void startGame(int BallNumber)
         {
-            manager.generate(BallNumber, RectangleWidth, RectangleHeigth);
+            manager.Create(BallNumber, RectangleWidth, RectangleHeigth);
         }
         public override ObservableCollection<Point> move(ObservableCollection<Point> col)
         {

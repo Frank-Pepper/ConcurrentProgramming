@@ -8,7 +8,11 @@ namespace Data
 {
     public interface IBall
     {
-        void Move();
+        void SetPositionX(Double x);
+        void SetPositionY(Double y);
+        void SetVelocityX(Double vx);
+        void SetVelocityY(Double xy);
         Tuple<Double, Double> GetPosition();
+        Tuple<Double, Double> GetVelocity();
     }
 }
