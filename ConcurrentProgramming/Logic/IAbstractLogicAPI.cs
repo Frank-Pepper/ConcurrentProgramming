@@ -7,9 +7,9 @@ namespace Logic
 {
     public interface IAbstractLogicAPI
     {
-        public static IBallManager GetBallManager()
+        public static IBallManager GetBallManager(IBallRepository? ballRepository = default(IBallRepository))
         {
-            return new BallManager();
+            return new BallManager(ballRepository);
         }
 
         private class BallManager : IBallManager
