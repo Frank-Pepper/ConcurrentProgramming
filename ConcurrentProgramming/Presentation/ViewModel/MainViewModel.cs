@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Accessibility;
+﻿using System.Windows.Input;
 using Presentation.ViewModel.Command;
 using Presentation.Model;
 using System.Collections.ObjectModel;

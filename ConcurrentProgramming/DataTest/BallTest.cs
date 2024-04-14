@@ -1,7 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
-namespace DataTest
+﻿namespace DataTest
 {
     [TestClass]
     public class BallTest
@@ -9,12 +6,14 @@ namespace DataTest
         [TestMethod]
         public void CheckConstructing()
         {
-            var TestBall = Data.IAbstractDataAPI.GetBall(1.0, 2.0);
+            var TestBall = Data.IAbstractDataAPI.GetBall(1.0, 2.0, 3.0, 4.0, 5.0);
             Assert.IsNotNull(TestBall);
             Tuple<Double, Double> coordinates = TestBall.GetPosition();
-            Assert.AreEqual(coordinates.Item1, 1.0);
-            Assert.AreEqual(coordinates.Item2, 2.0);
-            // TODO Checking velocity
+            Assert.AreEqual(coordinates.Item1, 2.0);
+            Assert.AreEqual(coordinates.Item2, 3.0);
+            Tuple<Double, Double> velocity = TestBall.GetVelocity();
+            Assert.AreEqual(velocity.Item1, 4.0);
+            Assert.AreEqual(velocity.Item2, 5.0);
         }
     }
 }
