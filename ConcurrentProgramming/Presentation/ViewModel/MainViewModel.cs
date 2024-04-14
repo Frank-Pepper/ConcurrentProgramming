@@ -10,34 +10,55 @@ using Presentation.Model;
 using System.Collections.ObjectModel;
 using Logic;
 using Data;
+using System.ComponentModel;
 
 namespace Presentation.ViewModel
 {
     class MainViewModel : ViewModelBase
     {
+        private AbstractModel _model;
         public MainViewModel()
         {
             var model = AbstractModel.GetModel();
             _ballRadius = model.BallRadius;
             _rectHeigth = model.RectangleHeigth;
             _rectWidth = model.RectangleWidth;
-
-            //_coordinates = new ObservableCollection<Tuple<double, double>>();
-            //_coordinates.Add(Tuple.Create(230.0, 154.0));
-            //_coordinates.Add(Tuple.Create(330.0, 354.0));
+            _model = model;
 
             var manager = IAbstractLogicAPI.GetBallManager();
             _coordinates = new ObservableCollection<Point>();
-            _coordinates.Add(new Point(0, 0));
-            _coordinates.Add(new Point(10, 10));
-            _coordinates.Add(new Point(110, 110));
-            //_coordinates = new ObservableCollection<Tuple<Double, Double>>();
+
             SetCommand = new RelayCommand(() => model.startGame(_number));
-            StartCommand = new RelayCommand(() => model.move(_coordinates));
+            StartCommand = new RelayCommand(() => Background());
 
             _coordinates.Add(new Point(0, 0));
             _coordinates.Add(new Point(10, 10));
             _coordinates.Add(new Point(110, 110));
+        }
+
+        private static BackgroundWorker backgroundWorker;
+        private Thread thread2;
+
+        public void Job()
+        {
+            thread2 = new Thread(Background);
+            thread2.Start();
+        }
+        public void Background()
+        {
+            ObservableCollection<Point> coordinates = new ObservableCollection<Point>();
+            Thread.Sleep(50);
+            for (int j = 0; j < 10; j++)
+            {
+                coordinates = _model.move(coordinates);
+                _coordinates.Clear();
+                for (int i = 0; i < coordinates.Count; i++)
+                {
+                    _coordinates.Add(coordinates[i]);
+                    //_coordinates[i].X = coordinates[i].X;
+                    //_coordinates[i].Y = coordinates[i].Y;
+                }
+            }
         }
         private int _number;
         public int Number

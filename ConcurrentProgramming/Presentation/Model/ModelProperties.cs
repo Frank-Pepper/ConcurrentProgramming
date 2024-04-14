@@ -25,17 +25,17 @@ namespace Presentation.Model
         {
             manager.generate(BallNumber, RectangleWidth, RectangleHeigth);
         }
-        public override void move(ObservableCollection<Point> col)
+        public override ObservableCollection<Point> move(ObservableCollection<Point> col)
         {
             manager.Move();
-            Points = manager.GetCoordinates();
+            this.Points = manager.GetCoordinates();
             col.Clear();
-            col = GetCoordinates();
+            return GetCoordinates();
         }
         public override ObservableCollection<Point> GetCoordinates()
         {
             ObservableCollection<Point> col = new ObservableCollection<Point>();
-            if (Points != null)
+            if (Points.Count != 0)
             {
                 for (int i = 0; i < Points.Count; i++)
                 {
