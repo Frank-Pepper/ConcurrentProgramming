@@ -9,7 +9,7 @@ namespace DataTest
         [TestMethod]
         public void CheckConstructing()
         {
-            Data.Ball TestBall = new Data.Ball(1.0, 2.0);
+            var TestBall = Data.IAbstractDataAPI.GetBall(1.0, 2.0);
             Assert.IsNotNull(TestBall);
             Tuple<Double, Double> coordinates = TestBall.GetPosition();
             Assert.AreEqual(coordinates.Item1, 1.0);
