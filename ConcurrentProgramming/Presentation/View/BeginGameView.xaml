@@ -15,7 +15,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
@@ -25,17 +25,33 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Grid.Column="0" FontSize="18" HorizontalAlignment="Center">Wpisz liczbę kul</Label>
-            <!--<TextBox Grid.Row="1" HorizontalAlignment="Center" Width="100" Text="{Binding BallNumber}" ></TextBox>-->
             <Button Grid.Row="0" Grid.Column="1" FontSize="18" HorizontalAlignment="Center" Command="{Binding MinusButton}">Odejmij</Button>
-            <Label Grid.Row="0" Grid.Column="2" Content="{Binding BallNumber}" />
+            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Number}" />
             <Button Grid.Row="0" Grid.Column="3" FontSize="18" HorizontalAlignment="Center" Command="{Binding AddButton}">Dodaj</Button>
             <Button Grid.Row="0" Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding StartCommand}" Margin="42,6,0,0">Rozpocznij Grę</Button>
 
         </Grid>
+        <Rectangle Width="{Binding _rectWidth}" Height="{Binding _rectHeigth}" Stroke="Black" />
+        <ItemsControl ItemsSource="{Binding Coordinates, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Width="{Binding _rectWidth}" Height="{Binding _rectHeigth}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                    <Style>
+                    <Setter Property="Canvas.Left" Value="{Binding Item1}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Item2}"/>
+                    </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                <Ellipse Width="{Binding DataContext.BallRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" Height="{Binding DataContext.BallRadius , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" Fill="Blue" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+         </ItemsControl>
 
-        <Rectangle Width="550" Height="400" Canvas.Left="10" Canvas.Top="25" Stroke="Black" />
-
-
+        
     </Grid>
 
 </Window>
