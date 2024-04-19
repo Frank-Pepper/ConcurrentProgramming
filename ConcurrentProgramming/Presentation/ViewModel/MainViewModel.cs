@@ -3,7 +3,6 @@ using Presentation.ViewModel.Command;
 using Presentation.Model;
 using System.Collections.ObjectModel;
 using Logic;
-using Data;
 using System.ComponentModel;
 
 namespace Presentation.ViewModel
@@ -30,21 +29,13 @@ namespace Presentation.ViewModel
             _coordinates.Add(new Point(110, 110));
         }
 
-        private static BackgroundWorker backgroundWorker;
-        private Thread thread2;
-
-        public void Job()
-        {
-            thread2 = new Thread(Background);
-            thread2.Start();
-        }
         public void Background()
         {
             ObservableCollection<Point> coordinates = new ObservableCollection<Point>();
             Thread.Sleep(50);
             for (int j = 0; j < 10; j++)
             {
-                coordinates = _model.move(coordinates);
+                //coordinates = _model.move(coordinates);
                 _coordinates.Clear();
                 for (int i = 0; i < coordinates.Count; i++)
                 {

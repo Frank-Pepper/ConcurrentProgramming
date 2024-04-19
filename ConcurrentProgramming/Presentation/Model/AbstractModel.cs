@@ -11,8 +11,7 @@ namespace Presentation.Model
         public abstract List<Tuple<Double, Double>> Points { get; set; }
 
         public abstract void startGame(int BallNumber);
-        public abstract ObservableCollection<Point> move(ObservableCollection<Point> col);
-        public abstract ObservableCollection<Point> GetCoordinates();
+        public abstract void move(ObservableCollection<Point> col);
         public static AbstractModel GetModel()
         {
             return new ModelProperties(IAbstractLogicAPI.GetBallManager());

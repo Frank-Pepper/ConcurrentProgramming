@@ -87,17 +87,6 @@ namespace Logic
             {
                 _ballRepository.Dispose();
             }
-
-            public List<Tuple<double, double>> GetCoordinates()
-            {
-                List<IBall> balls = _ballRepository.GetAll();
-                List<Tuple<Double, Double>> coords = new List<Tuple<double, double>>();
-                for (int i = 0; i < balls.Count; i++)
-                {
-                    coords.Add(balls[i].GetPosition());
-                }
-                return coords;
-            }
         }
     }
 }
