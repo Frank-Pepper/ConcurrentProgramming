@@ -4,16 +4,12 @@
     {
         public Double X { get; set; }
         public Double Y { get; set; }
+        public Point() { }
         public Point(Double x, Double y) {  X = x; Y = y; }
-        public static bool operator ==(Point l, Point r)
+        public void SetPosition(Double x, Double y)
         {
-
-            return (l.X == r.X && r.Y == l.Y);
-        }
-        public static bool operator !=(Point l, Point r)
-        {
-            return !(l == r);
-
+            X = x;
+            Y = y;
         }
     }
 }

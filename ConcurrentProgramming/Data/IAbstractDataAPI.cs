@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Data
 {
     public interface IAbstractDataAPI
     {
-        public static IBall GetBall(Double r, Double x, Double y, Double vx, Double vy)
+        public static IBall GetBall(Double r, Double x, Double y, Double vx, Double vy, Action<Double, Double> _subscriber)
         {
-            return new Ball(r, x, y, vx, vy);
+            return new Ball(r, x, y, vx, vy, _subscriber);
         }
 
         public static IBallRepository GetBallRepository()
@@ -17,41 +18,51 @@ namespace Data
 
         private class Ball : IBall
         {
-            public Double R { get; set; }
-            public Double X { get; set; }
-            public Double Y { get; set; }
+            public override Double R { get; set; }
+            public override Double X { get; set; }
+            public override Double Y { get; set; }
             private Double VX { get; set; }
             private Double VY { get; set; }
-            public Ball(Double r, Double x, Double y, Double vx, Double vy)
+            private Action<Double, Double> _subscriber;
+            public Ball(Double r, Double x, Double y, Double vx, Double vy, Action<Double, Double> subscriber)
             {
                 R = r;
                 X = x;
                 Y = y;
                 VX = vx; 
                 VY = vy;
+                _subscriber = subscriber;
             }
-            public Tuple<Double, Double> GetPosition()
+            public override Tuple<Double, Double> GetPosition()
             {
                 return Tuple.Create(X, Y);
             }
 
-            public void SetPosition(Double x, Double y)
+            public override void SetPosition(Double x, Double y)
             {
                 X = x;
                 Y = y;
             }
 
-            public void SetVelocity(Double vx, Double vy)
+            public override void SetVelocity(Double vx, Double vy)
             {
                 VX = vx;
                 VY = vy;
             }
 
-            public Tuple<Double, Double> GetVelocity()
+            public override Tuple<Double, Double> GetVelocity()
             {
                 return Tuple.Create(VX, VY);
             }
-
+            
+            public override void notify()
+            {
+                _subscriber(X, Y);
+            }
+            public override void Dispose()
+            {
+                Debug.WriteLine("HEHE Dispose");
+            }
         }
 
         private class BallRepository : IBallRepository

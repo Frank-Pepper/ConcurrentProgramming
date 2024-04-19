@@ -8,10 +8,10 @@ namespace Presentation.Model
         public abstract int RectangleWidth { get; }
         public abstract int RectangleHeigth { get; }
         public abstract int BallRadius { get; }
-        public abstract List<Tuple<Double, Double>> Points { get; set; }
+        public abstract List<Point> Points { get; set; }
 
-        public abstract void startGame(int BallNumber);
-        public abstract void move(ObservableCollection<Point> col);
+        public abstract void startGame(int BallNumber, ObservableCollection<Point> Points);
+        public abstract void move();
         public static AbstractModel GetModel()
         {
             return new ModelProperties(IAbstractLogicAPI.GetBallManager());

@@ -17,11 +17,14 @@ namespace Logic
             private readonly Random _random = new Random();
             private Double _width;
             private Double _height;
+
+            private List<LogicBall> _balls;
+
             public BallManager(IBallRepository? ballRepository = default(IBallRepository))
             {
                 _ballRepository = ballRepository ?? IAbstractDataAPI.GetBallRepository();
             }
-            public void Create(int number, Double width, Double height)
+            public void Create(int number, Double width, Double height, List<LogicBall> points)
             {
                 _width = width;
                 _height = height;
@@ -31,14 +34,14 @@ namespace Logic
                 Double yVelocity;
                 Double xRightLimit = width - 10;
                 Double yBottomLimit = height - 10;
-
+                _balls = points;
                 for (int i = 0; i < number; i++)
                 {
                     xPosition = xRightLimit * _random.NextDouble();
                     yPosition = yBottomLimit * _random.NextDouble();
                     xVelocity = 0.5 * (_random.Next(0, 2) * 2 - 1);
                     yVelocity = 0.5 * (_random.Next(0, 2) * 2 - 1);
-                    _ballRepository.Add(IAbstractDataAPI.GetBall(10, xPosition, yPosition, xVelocity, yVelocity));
+                    _ballRepository.Add(IAbstractDataAPI.GetBall(10, xPosition, yPosition, xVelocity, yVelocity, _balls[i].SetPosition));
                 }
             }
             public void Move()
@@ -81,6 +84,7 @@ namespace Logic
 
                     ball.SetPosition(newX, newY);
                     ball.SetVelocity(newVX, newVY);
+                    ball.notify();
                 }
             }
             public void Reset()

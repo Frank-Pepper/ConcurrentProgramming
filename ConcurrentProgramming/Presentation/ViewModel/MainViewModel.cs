@@ -3,7 +3,6 @@ using Presentation.ViewModel.Command;
 using Presentation.Model;
 using System.Collections.ObjectModel;
 using Logic;
-using System.ComponentModel;
 
 namespace Presentation.ViewModel
 {
@@ -21,28 +20,31 @@ namespace Presentation.ViewModel
             var manager = IAbstractLogicAPI.GetBallManager();
             _coordinates = new ObservableCollection<Point>();
 
-            SetCommand = new RelayCommand(() => model.startGame(_number));
+
+            SetCommand = new RelayCommand(() => PrepareGame());
             StartCommand = new RelayCommand(() => Background());
 
-            _coordinates.Add(new Point(0, 0));
-            _coordinates.Add(new Point(10, 10));
-            _coordinates.Add(new Point(110, 110));
+            //_coordinates.Add(new Point(0, 0));
+            //_coordinates.Add(new Point(10, 10));
+            //_coordinates.Add(new Point(110, 110));
         }
 
+        public void PrepareGame()
+        {
+            _coordinates.Clear();
+            _coordinates = new ObservableCollection<Point>();
+            for (int i = 0; i < _number; i++)
+            {
+                _coordinates.Add(new Point(10*i, 10*i));
+            }
+            _model.startGame(_number, _coordinates);
+        }
         public void Background()
         {
-            ObservableCollection<Point> coordinates = new ObservableCollection<Point>();
             Thread.Sleep(50);
             for (int j = 0; j < 10; j++)
             {
-                //coordinates = _model.move(coordinates);
-                _coordinates.Clear();
-                for (int i = 0; i < coordinates.Count; i++)
-                {
-                    _coordinates.Add(coordinates[i]);
-                    //_coordinates[i].X = coordinates[i].X;
-                    //_coordinates[i].Y = coordinates[i].Y;
-                }
+                _model.move();
             }
         }
         private int _number;
