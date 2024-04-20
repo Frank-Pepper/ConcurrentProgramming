@@ -19,7 +19,7 @@ namespace Model
         public IPointFactory factory { get; set; }
         public override IPoint CreatePoint(Double x, Double y)
         {
-            throw new NotImplementedException();
+            return factory.CreatePoint(x, y);
         }
         public override void startGame(int BallNumber, ObservableCollection<IPoint> Points)
         {
