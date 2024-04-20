@@ -57,7 +57,10 @@ namespace Data
             
             public override void notify()
             {
-                _subscriber(X, Y);
+                if (_subscriber != null)
+                {
+                    _subscriber(X, Y);
+                }
             }
             public override void Dispose()
             {

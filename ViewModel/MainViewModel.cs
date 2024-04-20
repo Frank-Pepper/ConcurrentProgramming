@@ -19,7 +19,7 @@ namespace ViewModel
 
             _coordinates = new ObservableCollection<IPoint>();
 
-            SetCommand = new RelayCommand(() => PrepareGame());
+            //SetCommand = new RelayCommand(() => PrepareGame());
             StartCommand = new RelayCommand(() => Background());
             AddCommand = new RelayCommand(() => AddBalls());
             SubtractCommand = new RelayCommand(() => SubtractBalls());
@@ -32,7 +32,7 @@ namespace ViewModel
             EndBalls();
             for (int i = 0; i < _number; i++)
             {
-                _coordinates.Add(_model.CreatePoint(10 * i, 10 * i));
+                _coordinates.Add(_model.CreatePoint(420, 69));
             }
             _model.startGame(_number, _coordinates);
         }
@@ -69,7 +69,7 @@ namespace ViewModel
             get => _coordinates;
             set
             {
-                //if (value == _coordinates) return;
+                if (value == _coordinates) return;
                 RaisePropertyChanged();
             }
         }
@@ -92,7 +92,7 @@ namespace ViewModel
             Coordinates.Clear();
         }
 
-        public ICommand SetCommand { get; set; }
+        //public ICommand SetCommand { get; set; }
         public ICommand StartCommand { get; set; }
         public ICommand AddCommand { get; set; }
         public ICommand SubtractCommand { get; set; }

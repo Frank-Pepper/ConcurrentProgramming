@@ -12,14 +12,14 @@
 	<Grid>
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="80" />
-				<ColumnDefinition Width="90" />
+				<ColumnDefinition Width="40" />
+				<ColumnDefinition Width="110" />
 				<ColumnDefinition Width="60" />
-                <ColumnDefinition Width="90" />
-				<ColumnDefinition Width="150" />
+                <ColumnDefinition Width="110" />
+				<ColumnDefinition Width="100" />
                 <ColumnDefinition Width="150" />
-				<ColumnDefinition Width="110" />
-				<ColumnDefinition Width="110" />
+				<ColumnDefinition Width="150" />
+				<ColumnDefinition Width="150" />
 			</Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
@@ -29,7 +29,7 @@
             <TextBox Text="{Binding Number}" Grid.Row="0" Grid.Column="2" />
             <Button Command="{Binding SubtractCommand}" Grid.Row="0" Grid.Column="1" FontSize="18" HorizontalAlignment="Stretch">Odejmij</Button>
             <Button Command="{Binding AddCommand}" Grid.Row="0" Grid.Column="3" FontSize="18" HorizontalAlignment="Stretch">Dodaj</Button>
-            <Button Command="{Binding SetCommand}" Grid.Row="0" Grid.Column="4" FontSize="18" HorizontalAlignment="Stretch">Ustaw liczbę kul</Button>
+            <!--<Button Command="{Binding SetCommand}" Grid.Row="0" Grid.Column="4" FontSize="18" HorizontalAlignment="Stretch">Ustaw liczbę kul</Button>-->
             <Button Command="{Binding StartCommand}" Grid.Row="0" Grid.Column="5" FontSize="18" HorizontalAlignment="Stretch">Rozpocznij Grę</Button>
             <Button Command="{Binding StopCommand}" Grid.Row="0" Grid.Column="6" FontSize="18" HorizontalAlignment="Stretch">Wstrzymaj</Button>
             <Button Command="{Binding EndCommand}" Grid.Row="0" Grid.Column="7" FontSize="18" HorizontalAlignment="Stretch">Zakończ</Button>
