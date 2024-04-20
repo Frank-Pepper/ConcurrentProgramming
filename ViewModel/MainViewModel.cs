@@ -16,12 +16,15 @@ namespace ViewModel
             _rectHeigth = model.RectangleHeigth;
             _rectWidth = model.RectangleWidth;
             _model = model;
+            _number = 7;
 
             _coordinates = new ObservableCollection<IPoint>();
 
 
             SetCommand = new RelayCommand(() => PrepareGame());
             StartCommand = new RelayCommand(() => Background());
+            AddCommand = new RelayCommand(() => AddBalls());
+            SubtractCommand = new RelayCommand(() => SubtractBalls());
 
             //_coordinates.Add(new Point(0, 0));
             //_coordinates.Add(new Point(10, 10));
@@ -76,9 +79,21 @@ namespace ViewModel
             }
         }
 
+        public void AddBalls()
+        {
+            Number++;
+        }
+        public void SubtractBalls()
+        {
+            if (Number == 0) return;
+            Number--;
+        }
+
 
 
         public ICommand SetCommand { get; set; }
         public ICommand StartCommand { get; set; }
+        public ICommand AddCommand { get; set; }
+        public ICommand SubtractCommand { get; set; }
     }
 }
