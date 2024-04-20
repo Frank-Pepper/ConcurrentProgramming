@@ -6,7 +6,7 @@ using Logic;
 
 namespace ViewModel
 {
-    class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
         private AbstractModel _model;
         public MainViewModel()
