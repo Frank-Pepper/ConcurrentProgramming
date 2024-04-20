@@ -12,24 +12,27 @@
 	<Grid>
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="100" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="80" />
+				<ColumnDefinition Width="90" />
+				<ColumnDefinition Width="60" />
+                <ColumnDefinition Width="90" />
+				<ColumnDefinition Width="150" />
+                <ColumnDefinition Width="150" />
+				<ColumnDefinition Width="110" />
+				<ColumnDefinition Width="110" />
 			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="50"/>
-				<RowDefinition Height="50"/>
-				<RowDefinition Height="50"/>
-			</Grid.RowDefinitions>
-			<Label Grid.Row="0" Grid.Column="0" FontSize="18" HorizontalAlignment="Center">Wpisz liczbę kul</Label>
-            <Button Grid.Row="0" Grid.Column="1" FontSize="18" HorizontalAlignment="Center" Command="{Binding SubtractCommand}">Odejmij</Button>
-			<TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Number}" />
-            <Button Grid.Row="0" Grid.Column="3" FontSize="18" HorizontalAlignment="Center" Command="{Binding AddCommand}">Dodaj</Button>
-			<Button Grid.Row="0" Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding SetCommand}" Margin="42,6,0,0">Ustaw liczbę kul</Button>
-			<Button Grid.Row="0" Grid.Column="6" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding StartCommand}" Margin="42,6,0,0">Rozpocznij Grę</Button>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <TextBox Text="{Binding Number}" Grid.Row="0" Grid.Column="2" />
+            <Button Command="{Binding SubtractCommand}" Grid.Row="0" Grid.Column="1" FontSize="18" HorizontalAlignment="Stretch">Odejmij</Button>
+            <Button Command="{Binding AddCommand}" Grid.Row="0" Grid.Column="3" FontSize="18" HorizontalAlignment="Stretch">Dodaj</Button>
+            <Button Command="{Binding SetCommand}" Grid.Row="0" Grid.Column="4" FontSize="18" HorizontalAlignment="Stretch">Ustaw liczbę kul</Button>
+            <Button Command="{Binding StartCommand}" Grid.Row="0" Grid.Column="5" FontSize="18" HorizontalAlignment="Stretch">Rozpocznij Grę</Button>
+            <Button Command="{Binding StopCommand}" Grid.Row="0" Grid.Column="6" FontSize="18" HorizontalAlignment="Stretch">Wstrzymaj</Button>
+            <Button Command="{Binding EndCommand}" Grid.Row="0" Grid.Column="7" FontSize="18" HorizontalAlignment="Stretch">Zakończ</Button>
 
 		</Grid>
 		<Rectangle Width="{Binding _rectWidth}" Height="{Binding _rectHeigth}" Stroke="Black" />

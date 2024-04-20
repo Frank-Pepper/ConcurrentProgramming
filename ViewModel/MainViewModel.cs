@@ -2,7 +2,6 @@
 using ViewModel.Command;
 using Model;
 using System.Collections.ObjectModel;
-using Logic;
 
 namespace ViewModel
 {
@@ -20,33 +19,30 @@ namespace ViewModel
 
             _coordinates = new ObservableCollection<IPoint>();
 
-
             SetCommand = new RelayCommand(() => PrepareGame());
             StartCommand = new RelayCommand(() => Background());
             AddCommand = new RelayCommand(() => AddBalls());
             SubtractCommand = new RelayCommand(() => SubtractBalls());
-
-            //_coordinates.Add(new Point(0, 0));
-            //_coordinates.Add(new Point(10, 10));
-            //_coordinates.Add(new Point(110, 110));
+            StopCommand = new RelayCommand(() => StopBalls());
+            EndCommand = new RelayCommand(() => EndBalls());
         }
 
         public void PrepareGame()
         {
-            _coordinates.Clear();
+            EndBalls();
             for (int i = 0; i < _number; i++)
             {
-                _coordinates.Add(_model.CreatePoint(10*i, 10*i));
+                _coordinates.Add(_model.CreatePoint(10 * i, 10 * i));
             }
             _model.startGame(_number, _coordinates);
         }
         public void Background()
         {
-            Thread.Sleep(50);
-            for (int j = 0; j < 10; j++)
+            if (Coordinates.Count == 0)
             {
-                _model.move();
+                PrepareGame();
             }
+            _model.move();
             Coordinates = _coordinates;
         }
         private int _number;
@@ -55,7 +51,7 @@ namespace ViewModel
             get => _number;
             set
             {
-                if (value == _number) return;
+                if (value == _number || value > 42) return;
                 _number = value;
                 RaisePropertyChanged();
             }
@@ -63,7 +59,6 @@ namespace ViewModel
         public int _ballRadius { get; }
         public int _rectWidth { get; }
         public int _rectHeigth { get; }
-
         public int BallRadius
         {
             get => _ballRadius;
@@ -78,7 +73,6 @@ namespace ViewModel
                 RaisePropertyChanged();
             }
         }
-
         public void AddBalls()
         {
             Number++;
@@ -88,12 +82,21 @@ namespace ViewModel
             if (Number == 0) return;
             Number--;
         }
-
-
+        public void StopBalls()
+        {
+            _model.StopGame();
+        }
+        public void EndBalls()
+        {
+            StopBalls();
+            Coordinates.Clear();
+        }
 
         public ICommand SetCommand { get; set; }
         public ICommand StartCommand { get; set; }
         public ICommand AddCommand { get; set; }
         public ICommand SubtractCommand { get; set; }
+        public ICommand StopCommand { get; set; }
+        public ICommand EndCommand { get; set; }
     }
 }

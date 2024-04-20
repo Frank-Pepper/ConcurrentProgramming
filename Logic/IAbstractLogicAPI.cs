@@ -19,15 +19,18 @@ namespace Logic
             private readonly Random _random = new Random();
             private Double _width;
             private Double _height;
+            private bool motion;
 
-            private List<LogicBall> _balls;
+            private List<LogicBallEvent> _balls;
 
             public BallManager(IBallRepository? ballRepository = default(IBallRepository))
             {
                 _ballRepository = ballRepository ?? IAbstractDataAPI.GetBallRepository();
+                _balls = new List<LogicBallEvent>();
             }
-            public void Create(int number, Double width, Double height, List<LogicBall> points)
+            public void Create(int number, Double width, Double height, List<LogicBallEvent> points)
             {
+                motion = true;
                 _width = width;
                 _height = height;
                 Double xPosition;
@@ -48,22 +51,19 @@ namespace Logic
             }
             public void Move()
             {
+                motion = true;
                 List<IBall> balls = _ballRepository.GetAll();
                 
                 foreach (IBall ball in balls)
                 {
                     Task.Run(() =>
                     {
-                        int i = 42069;
-                        while (i > 0)
+                        while (motion)
                         {
                             MoveBall(ball);
-                            i--;
-                            Thread.Sleep(10);
+                            Thread.Sleep(5);
                         }
-
                     });
-                    MoveBall(ball);
                 }
                 
             }
@@ -105,6 +105,10 @@ namespace Logic
                 ball.SetPosition(newX, newY);
                 ball.SetVelocity(newVX, newVY);
                 ball.notify();
+            }
+            public void StopBalls()
+            {
+                motion = false;
             }
             public void Reset()
             {

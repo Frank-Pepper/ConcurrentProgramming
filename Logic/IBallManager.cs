@@ -6,9 +6,10 @@ namespace Logic
 {
     public interface IBallManager
     {
-        void Create(int number, Double width, Double height, List<LogicBall> points);
+        void Create(int number, Double width, Double height, List<LogicBallEvent> points);
         void Move();
         void MoveBall(IBall ball);
+        void StopBalls();
         void Reset();
     }
 }

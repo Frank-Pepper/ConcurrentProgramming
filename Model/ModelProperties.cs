@@ -23,16 +23,18 @@ namespace Model
         }
         public override void startGame(int BallNumber, ObservableCollection<IPoint> Points)
         {
-            //Points = new List<Point>();
-            List<LogicBall> lBall = new List<LogicBall>();
+            List<LogicBallEvent> lBall = new();
             for (int i = 0; i < BallNumber; i++)
             {
-                //Point p = new Point();
-                //Points.Add(p);
-                lBall.Add(new LogicBall(Points[i].SetPosition));
+                lBall.Add(new LogicBallEvent(Points[i].SetPosition));
             }
             manager.Create(BallNumber, RectangleWidth, RectangleHeigth, lBall);
         }
+        public override void StopGame()
+        {
+            manager.StopBalls();
+        }
+
         public override void move()
         {
             manager.Move();

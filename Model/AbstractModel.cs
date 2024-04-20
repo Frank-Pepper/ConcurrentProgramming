@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Logic;
+
 
 namespace Model
 {
@@ -12,6 +12,7 @@ namespace Model
         public abstract IPoint CreatePoint(Double x, Double y);
 
         public abstract void startGame(int BallNumber, ObservableCollection<IPoint> Points);
+        public abstract void StopGame();
         public abstract void move();
         public static AbstractModel GetModel()
         {

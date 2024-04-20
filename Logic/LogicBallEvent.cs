@@ -5,16 +5,18 @@ using System.Text;
 
 namespace Logic
 {
-    public class LogicBall : IDisposable
+    public struct LogicBallEvent : IDisposable
     {
         private Double X { get; set; }
         private Double Y { get; set; }
         private Action<Double, Double> _subscriber;
-        public LogicBall(Action<double, double> subscriber)
+        public LogicBallEvent(Action<double, double> subscriber)
         {
+            X = 0;
+            Y = 0;
             _subscriber = subscriber;
         }
-        public LogicBall(Double x, Double y, Action<double, double> subscriber)
+        public LogicBallEvent(Double x, Double y, Action<double, double> subscriber)
         {
             X = x;
             Y = y;
