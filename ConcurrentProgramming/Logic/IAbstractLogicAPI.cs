@@ -1,6 +1,7 @@
 ﻿using Data;
 using System;
 using System.Collections.Generic;
+using System.Timers;
 
 namespace Logic
 {
@@ -17,6 +18,7 @@ namespace Logic
             private readonly Random _random = new Random();
             private Double _width;
             private Double _height;
+            private Timer _timer;
 
             private List<LogicBall> _balls;
 
@@ -44,6 +46,23 @@ namespace Logic
                     _ballRepository.Add(IAbstractDataAPI.GetBall(10, xPosition, yPosition, xVelocity, yVelocity, _balls[i].SetPosition));
                 }
             }
+
+            public void Moveb()
+            {
+                _timer = new Timer(30); // Set up the timer for 3 seconds
+                                          //
+                                          // Type "_timer.Elapsed += " and press tab twice.
+                                          //
+                _timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+                _timer.Enabled = true; // Enable it
+            }
+
+            private static void OnTimedEvent(object source, ElapsedEventArgs e)
+            {
+                
+            }
+
+
             public void Move()
             {
                 List<IBall> balls = _ballRepository.GetAll();

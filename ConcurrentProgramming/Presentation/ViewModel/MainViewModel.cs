@@ -32,7 +32,7 @@ namespace Presentation.ViewModel
         public void PrepareGame()
         {
             _coordinates.Clear();
-            _coordinates = new ObservableCollection<Point>();
+            _coordinates = [];
             for (int i = 0; i < _number; i++)
             {
                 _coordinates.Add(new Point(10*i, 10*i));
@@ -46,6 +46,7 @@ namespace Presentation.ViewModel
             {
                 _model.move();
             }
+            Coordinates = _coordinates;
         }
         private int _number;
         public int Number
@@ -72,7 +73,7 @@ namespace Presentation.ViewModel
             get => _coordinates;
             set
             {
-                if (value == _coordinates) return;
+                //if (value == _coordinates) return;
                 RaisePropertyChanged();
             }
         }
