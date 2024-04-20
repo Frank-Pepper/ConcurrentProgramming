@@ -1,6 +1,8 @@
 ﻿using Data;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Logic
 {
@@ -47,45 +49,62 @@ namespace Logic
             public void Move()
             {
                 List<IBall> balls = _ballRepository.GetAll();
+                
+                foreach (IBall ball in balls)
+                {
+                    Task.Run(() =>
+                    {
+                        int i = 42069;
+                        while (i > 0)
+                        {
+                            MoveBall(ball);
+                            i--;
+                            Thread.Sleep(10);
+                        }
+
+                    });
+                    MoveBall(ball);
+                }
+                
+            }
+            public void MoveBall(IBall ball)
+            {
                 double newX;
                 double newY;
                 double newVX;
                 double newVY;
-                foreach (IBall ball in balls)
+                double x = ball.GetPosition().Item1;
+                double y = ball.GetPosition().Item2;
+                double vx = ball.GetVelocity().Item1;
+                double vy = ball.GetVelocity().Item2;
+
+                newX = x + vx;
+                newY = y + vy;
+
+
+                if (newX < 0 || newX > _width - 10)
                 {
-                    double x = ball.GetPosition().Item1;
-                    double y = ball.GetPosition().Item2;
-                    double vx = ball.GetVelocity().Item1;
-                    double vy = ball.GetVelocity().Item2;
-
-                    newX = x + vx;
-                    newY = y + vy;
-
-
-                    if (newX < 0 || newX > _width - 10)
-                    {
-                        newX = x - vx;
-                        newVX = -vx;
-                    }
-                    else
-                    {
-                        newVX = vx;
-                    }
-
-                    if (newY < 0 || newY > _height - 10)
-                    {
-                        newY = y - vy;
-                        newVY = -vy;
-                    }
-                    else
-                    {
-                        newVY = vy;
-                    }
-
-                    ball.SetPosition(newX, newY);
-                    ball.SetVelocity(newVX, newVY);
-                    ball.notify();
+                    newX = x - vx;
+                    newVX = -vx;
                 }
+                else
+                {
+                    newVX = vx;
+                }
+
+                if (newY < 0 || newY > _height - 10)
+                {
+                    newY = y - vy;
+                    newVY = -vy;
+                }
+                else
+                {
+                    newVY = vy;
+                }
+
+                ball.SetPosition(newX, newY);
+                ball.SetVelocity(newVX, newVY);
+                ball.notify();
             }
             public void Reset()
             {

@@ -8,6 +8,7 @@ namespace Logic
     {
         void Create(int number, Double width, Double height, List<LogicBall> points);
         void Move();
+        void MoveBall(IBall ball);
         void Reset();
     }
 }
