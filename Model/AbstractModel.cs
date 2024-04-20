@@ -13,6 +13,7 @@ namespace Model
 
         public abstract void startGame(int BallNumber, ObservableCollection<IPoint> Points);
         public abstract void StopGame();
+        public abstract void EndGame();
         public abstract void move();
         public static AbstractModel GetModel()
         {

@@ -34,7 +34,10 @@ namespace Model
         {
             manager.StopBalls();
         }
-
+        public override void EndGame()
+        {
+            manager.Reset();
+        }
         public override void move()
         {
             manager.Move();

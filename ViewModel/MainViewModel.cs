@@ -88,7 +88,7 @@ namespace ViewModel
         }
         public void EndBalls()
         {
-            StopBalls();
+            _model.EndGame();
             Coordinates.Clear();
         }
 

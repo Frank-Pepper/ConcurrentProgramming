@@ -30,7 +30,6 @@ namespace Logic
             }
             public void Create(int number, Double width, Double height, List<LogicBallEvent> points)
             {
-                motion = true;
                 _width = width;
                 _height = height;
                 Double xPosition;
@@ -51,6 +50,11 @@ namespace Logic
             }
             public void Move()
             {
+                if (motion)
+                {
+                    return;
+                }
+
                 motion = true;
                 List<IBall> balls = _ballRepository.GetAll();
                 
@@ -65,7 +69,6 @@ namespace Logic
                         }
                     });
                 }
-                
             }
             public void MoveBall(IBall ball)
             {
@@ -112,6 +115,7 @@ namespace Logic
             }
             public void Reset()
             {
+                motion = false;
                 _ballRepository.Dispose();
             }
         }
