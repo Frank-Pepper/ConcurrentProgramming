@@ -6,7 +6,7 @@ namespace Data
 {
     public interface IDataAPI
     {
-        public static IBall GetBall(Double r, Double x, Double y, Double vx, Double vy, Action<Double, Double> _subscriber)
+        public static IBall GetBall(Double r, Double x, Double y, Double vx, Double vy, Action<Double, Double>? _subscriber = null)
         {
             return new Ball(r, x, y, vx, vy, _subscriber);
         }

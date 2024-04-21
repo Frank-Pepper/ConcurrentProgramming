@@ -11,7 +11,7 @@ namespace Presentation.Model
     {
         Double X { get;  }
         Double Y { get; }
-        event PropertyChangedEventHandler? PropertyChanged;
+        new event PropertyChangedEventHandler? PropertyChanged;
 
         void NotifyPropertyChanged(string p);
 

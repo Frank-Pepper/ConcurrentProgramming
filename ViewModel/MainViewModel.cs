@@ -34,7 +34,7 @@ namespace Presentation.ViewModel
             {
                 _coordinates.Add(AbstractModel.CreatePoint(0, 0));
             }
-            _model.startGame(_number, _coordinates);
+            _model.StartGame(_number, _coordinates);
         }
         public void Background()
         {
@@ -42,7 +42,7 @@ namespace Presentation.ViewModel
             {
                 PrepareGame();
             }
-            _model.move();
+            _model.Move();
             Coordinates = _coordinates;
         }
         private int _number;

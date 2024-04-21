@@ -4,29 +4,26 @@ namespace Presentation.Model
 {
     internal class Point : IPoint
     {
-        public Double _x { get; set; }
-        public Double _y { get; set; }
+        public Double Xx { get; set; }
+        public Double Yy { get; set; }
         public Point() { }
-        public Point(Double x, Double y) { _x = x; _y = y; }
+        public Point(Double _x, Double _y) { Xx = _x; Yy = _y; }
 
-        public Double X { get => _x; }
-        public Double Y { get => _y; }
+        public Double X { get => Xx; }
+        public Double Y { get => Yy; }
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void NotifyPropertyChanged(string p)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(p));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(p));
         }
 
-        public void SetPosition(Double x, Double y)
+        public void SetPosition(Double _x, Double _y)
         {
-            _x = x;
-            _y = y;
+            Xx = _x;
+            Yy = _y;
             NotifyPropertyChanged(nameof(X));
             NotifyPropertyChanged(nameof(Y));
         }

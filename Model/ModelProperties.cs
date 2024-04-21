@@ -5,36 +5,37 @@ namespace Presentation.Model
 {
     internal class ModelProperties : AbstractModel
     {
-        public ModelProperties(IBallManager? ballManager = default(IBallManager))
+        public ModelProperties(IBallManager? ballManager = null)
         {
-            manager = ballManager ?? ILogicAPI.GetBallManager();
+            Manager = ballManager ?? ILogicAPI.GetBallManager();
+            Points = new();
         }
         public override int RectangleWidth => 500;
 
         public override int RectangleHeigth => 400;
         public override int BallRadius => 10;
         public override List<IPoint> Points { get; set; }
-        public IBallManager manager { get; set; }
-        public override void startGame(int BallNumber, ObservableCollection<IPoint> Points)
+        public IBallManager Manager { get; set; }
+        public override void StartGame(int BallNumber, ObservableCollection<IPoint> Points)
         {
             List<ILogicBallEvent> lBall = new();
             for (int i = 0; i < BallNumber; i++)
             {
                 lBall.Add(ILogicAPI.GetLogicBallEventSubOnly(Points[i].SetPosition));
             }
-            manager.Create(BallNumber, RectangleWidth, RectangleHeigth, lBall);
+            Manager.Create(BallNumber, RectangleWidth, RectangleHeigth, lBall);
         }
         public override void StopGame()
         {
-            manager.StopBalls();
+            Manager.StopBalls();
         }
         public override void EndGame()
         {
-            manager.Reset();
+            Manager.Reset();
         }
-        public override void move()
+        public override void Move()
         {
-            manager.Move();
+            Manager.Move();
         }
     }
 }

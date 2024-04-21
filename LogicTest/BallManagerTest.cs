@@ -16,7 +16,7 @@ namespace LogicTest
             var balls = new List<ILogicBallEvent>();
             for(int j = 0; j < 5; j++)
             {
-                balls.Add(ILogicAPI.GetLogicBallEventSubOnly(null));
+                balls.Add(ILogicAPI.GetLogicBallEventSubOnly());
             }
             TestBallManager.Create(5, 100, 100, balls);
             Assert.AreEqual(5, i);

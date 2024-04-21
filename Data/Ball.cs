@@ -10,10 +10,10 @@ namespace Data
         public override Double R { get; set; }
         public override Double X { get; set; }
         public override Double Y { get; set; }
-        private Double VX { get; set; }
-        private Double VY { get; set; }
-        private Action<Double, Double> _subscriber;
-        public Ball(Double r, Double x, Double y, Double vx, Double vy, Action<Double, Double> subscriber)
+        public override Double VX { get; set; }
+        public override Double VY { get; set; }
+        private readonly Action<Double, Double>? _subscriber;
+        public Ball(Double r, Double x, Double y, Double vx, Double vy, Action<Double, Double>? subscriber)
         {
             R = r;
             X = x;
@@ -44,12 +44,9 @@ namespace Data
             return Tuple.Create(VX, VY);
         }
 
-        public override void notify()
+        public override void Notify()
         {
-            if (_subscriber != null)
-            {
-                _subscriber(X, Y);
-            }
+            _subscriber?.Invoke(X, Y);
         }
         public override void Dispose()
         {

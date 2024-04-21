@@ -13,12 +13,12 @@ namespace Logic
             return new BallManager(ballRepository);
         }
 
-        public static ILogicBallEvent GetLogicBallEvent(Double x, Double y, Action<double, double> subscriber)
-        {
-            return new LogicBallEvent(x, y, subscriber);
-        }
+        //public static ILogicBallEvent GetLogicBallEvent(Double x, Double y, Action<double, double> subscriber)
+        //{
+        //    return new LogicBallEvent(x, y, subscriber);
+        //}
 
-        public static ILogicBallEvent GetLogicBallEventSubOnly(Action<double, double> subscriber)
+        public static ILogicBallEvent GetLogicBallEventSubOnly(Action<double, double>? subscriber = null)
         {
             return new LogicBallEvent(subscriber);
         }

@@ -101,7 +101,7 @@ namespace Logic
 
             ball.SetPosition(newX, newY);
             ball.SetVelocity(newVX, newVY);
-            ball.notify();
+            ball.Notify();
         }
         public void StopBalls()
         {
