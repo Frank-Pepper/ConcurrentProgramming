@@ -17,7 +17,7 @@ namespace Logic
 
         private List<ILogicBallEvent> _balls;
 
-        public BallManager(IBallRepository? ballRepository = default(IBallRepository))
+        public BallManager(IBallRepository? ballRepository = null)
         {
             _ballRepository = ballRepository ?? IDataAPI.GetBallRepository();
             _balls = new List<ILogicBallEvent>();
