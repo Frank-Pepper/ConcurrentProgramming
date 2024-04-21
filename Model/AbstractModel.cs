@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
 
-namespace Model
+namespace Presentation.Model
 {
     public abstract class AbstractModel
     {
@@ -9,7 +9,6 @@ namespace Model
         public abstract int RectangleHeigth { get; }
         public abstract int BallRadius { get; }
         public abstract List<IPoint> Points { get; set; }
-        public abstract IPoint CreatePoint(Double x, Double y);
 
         public abstract void startGame(int BallNumber, ObservableCollection<IPoint> Points);
         public abstract void StopGame();
@@ -19,9 +18,9 @@ namespace Model
         {
             return new ModelProperties();
         }
-        public static IPointFactory GetPointFactory()
+        public static IPoint CreatePoint(Double x, Double y)
         {
-            return new PointFactory();
+            return new Point(x, y);
         }
     }
 }

@@ -6,7 +6,7 @@
         [TestMethod]
         public void CheckConstructing()
         {
-            var TestBall = Data.IAbstractDataAPI.GetBall(1.0, 2.0, 3.0, 4.0, 5.0, null);
+            var TestBall = Data.IDataAPI.GetBall(1.0, 2.0, 3.0, 4.0, 5.0, null);
             Assert.IsNotNull(TestBall);
             Tuple<Double, Double> coordinates = TestBall.GetPosition();
             Assert.AreEqual(coordinates.Item1, 2.0);

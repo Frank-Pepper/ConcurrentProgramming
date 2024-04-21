@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Model
+namespace Presentation.Model
 {
     internal class Point : IPoint
     {

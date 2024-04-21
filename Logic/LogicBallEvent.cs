@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Logic
 {
-    public struct LogicBallEvent : IDisposable
+    internal class LogicBallEvent : ILogicBallEvent
     {
         private Double X { get; set; }
         private Double Y { get; set; }

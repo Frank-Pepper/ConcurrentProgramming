@@ -1,9 +1,9 @@
 ﻿using System.Windows.Input;
 using ViewModel.Command;
-using Model;
+using Presentation.Model;
 using System.Collections.ObjectModel;
 
-namespace ViewModel
+namespace Presentation.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
@@ -32,7 +32,7 @@ namespace ViewModel
             EndBalls();
             for (int i = 0; i < _number; i++)
             {
-                _coordinates.Add(_model.CreatePoint(420, 69));
+                _coordinates.Add(AbstractModel.CreatePoint(0, 0));
             }
             _model.startGame(_number, _coordinates);
         }

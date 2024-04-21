@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace View
+namespace Presentation.View
 {
     /// <summary>
     /// Interaction logic for App.xaml
