@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,6 @@ namespace Presentation.Model
 
         void NotifyPropertyChanged(string p);
 
-        void SetPosition(Double x, Double y);
+        void SetPosition(Vector2 pos);
     }
 }

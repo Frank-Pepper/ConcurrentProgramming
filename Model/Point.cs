@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Numerics;
 
 namespace Presentation.Model
 {
@@ -20,10 +21,10 @@ namespace Presentation.Model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(p));
         }
 
-        public void SetPosition(Double _x, Double _y)
+        public void SetPosition(Vector2 pos)
         {
-            Xx = _x;
-            Yy = _y;
+            Xx = pos.X;
+            Yy = pos.Y;
             NotifyPropertyChanged(nameof(X));
             NotifyPropertyChanged(nameof(Y));
         }

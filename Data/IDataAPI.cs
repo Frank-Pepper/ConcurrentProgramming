@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace Data
 {
     public interface IDataAPI
     {
-        public static IBall GetBall(Double r, Double x, Double y, Double vx, Double vy, Action<Double, Double>? _subscriber = null)
+        public static IBall GetBall(float r, float x, float y, float vx, float vy, Action<Vector2>? _subscriber = null)
         {
             return new Ball(r, x, y, vx, vy, _subscriber);
         }

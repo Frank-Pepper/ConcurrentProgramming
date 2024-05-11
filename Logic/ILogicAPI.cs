@@ -1,6 +1,7 @@
 ﻿using Data;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace Logic
         //    return new LogicBallEvent(x, y, subscriber);
         //}
 
-        public static ILogicBallEvent GetLogicBallEventSubOnly(Action<double, double>? subscriber = null)
+        public static ILogicBallEvent GetLogicBallEventSubOnly(Action<Vector2>? subscriber = null)
         {
             return new LogicBallEvent(subscriber);
         }

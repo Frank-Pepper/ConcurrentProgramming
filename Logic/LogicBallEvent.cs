@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 using System.Text;
 
 namespace Logic
 {
     internal class LogicBallEvent : ILogicBallEvent
     {
-        private Double X { get; set; }
-        private Double Y { get; set; }
-        private readonly Action<Double, Double>? _subscriber;
-        public LogicBallEvent(Action<double, double>? subscriber)
+        private Vector2 Position;
+        private readonly Action<Vector2>? _subscriber;
+        public LogicBallEvent(Action<Vector2>? subscriber)
         {
-            X = 0;
-            Y = 0;
+            Position = new Vector2(0, 0);
             _subscriber = subscriber;
         }
         //public LogicBallEvent(Double x, Double y, Action<double, double> subscriber)
@@ -22,11 +21,10 @@ namespace Logic
         //    Y = y;
         //    _subscriber = subscriber;
         //}
-        public void SetPosition(Double x, Double y)
+        public void SetPosition(Vector2 pos)
         {
-            X = x;
-            Y = y;
-            _subscriber?.Invoke(X, Y);
+            Position = pos;
+            _subscriber?.Invoke(pos);
         }
 
         public void Dispose()

@@ -18,7 +18,7 @@ namespace Presentation.Model
         {
             return new ModelProperties();
         }
-        public static IPoint CreatePoint(Double x, Double y)
+        public static IPoint CreatePoint(float x, float y)
         {
             return new Point(x, y);
         }

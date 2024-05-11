@@ -1,6 +1,7 @@
 ﻿using Data;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,23 +23,23 @@ namespace Logic
             _ballRepository = ballRepository ?? IDataAPI.GetBallRepository();
             _balls = new List<ILogicBallEvent>();
         }
-        public void Create(int number, Double width, Double height, List<ILogicBallEvent> points)
+        public void Create(int number, float width, float height, List<ILogicBallEvent> points)
         {
             _width = width;
             _height = height;
-            Double xPosition;
-            Double yPosition;
-            Double xVelocity;
-            Double yVelocity;
-            Double xRightLimit = width - 10;
-            Double yBottomLimit = height - 10;
+            float xPosition;
+            float yPosition;
+            float xVelocity;
+            float yVelocity;
+            float xRightLimit = width - 10;
+            float yBottomLimit = height - 10;
             _balls = points;
             for (int i = 0; i < number; i++)
             {
-                xPosition = xRightLimit * _random.NextDouble();
-                yPosition = yBottomLimit * _random.NextDouble();
-                xVelocity = 0.5 * (_random.Next(0, 2) * 2 - 1);
-                yVelocity = 0.5 * (_random.Next(0, 2) * 2 - 1);
+                xPosition = (float)(xRightLimit * _random.NextDouble());
+                yPosition = (float)(yBottomLimit * _random.NextDouble());
+                xVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
+                yVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
                 _ballRepository.Add(IDataAPI.GetBall(10, xPosition, yPosition, xVelocity, yVelocity, _balls[i].SetPosition));
             }
         }
@@ -66,41 +67,32 @@ namespace Logic
         }
         public void MoveBall(IBall ball)
         {
-            double newX;
-            double newY;
-            double newVX;
-            double newVY;
-            double x = ball.GetPosition().Item1;
-            double y = ball.GetPosition().Item2;
-            double vx = ball.GetVelocity().Item1;
-            double vy = ball.GetVelocity().Item2;
+            Vector2 pos = ball.Position;
+            Vector2 sped = ball.Speed;
+            Vector2 npos = pos + sped;
 
-            newX = x + vx;
-            newY = y + vy;
-
+            float newX = npos.X;
+            float newY = npos.Y;
+            float newVX = sped.X;
+            float newVY = sped.Y;
 
             if (newX < 0 || newX > _width - 10)
             {
-                newX = x - vx;
-                newVX = -vx;
-            }
-            else
-            {
-                newVX = vx;
+                newX -= 2 * newVX;
+                newVX = -newVX;
             }
 
             if (newY < 0 || newY > _height - 10)
             {
-                newY = y - vy;
-                newVY = -vy;
-            }
-            else
-            {
-                newVY = vy;
+                newY -= 2 * newVY;
+                newVY = -newVY;
             }
 
-            ball.SetPosition(newX, newY);
-            ball.SetVelocity(newVX, newVY);
+            npos = new Vector2(newX, newY);
+            sped = new Vector2(newVX, newVY);
+
+            ball.SetPosition(npos);
+            ball.SetVelocity(sped);
             ball.Notify();
         }
         public void StopBalls()

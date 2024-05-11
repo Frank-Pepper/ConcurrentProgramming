@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 using System.Text;
 
 namespace Logic
 {
     public interface ILogicBallEvent : IDisposable
     {
-        void SetPosition(Double x, Double y);
+        void SetPosition(Vector2 pos);
     }
 }
