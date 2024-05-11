@@ -33,9 +33,9 @@ namespace Presentation.Model
         {
             Manager.Reset();
         }
-        public override void Move()
-        {
-            Manager.Move();
-        }
+        //public override void Move()
+        //{
+        //    Manager.Move();
+        //}
     }
 }

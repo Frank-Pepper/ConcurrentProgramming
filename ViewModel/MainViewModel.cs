@@ -42,7 +42,7 @@ namespace Presentation.ViewModel
             {
                 PrepareGame();
             }
-            _model.Move();
+            //_model.Move();
             Coordinates = _coordinates;
         }
         private int _number;

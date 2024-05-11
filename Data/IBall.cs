@@ -12,8 +12,12 @@ namespace Data
         public virtual Double R { get; set; }
         public abstract Vector2 Position { get; set;}
         public abstract Vector2 Speed { get; set;}
-        public abstract void SetPosition(Vector2 pos);
-        public abstract void SetVelocity(Vector2 sped);
+        public abstract Boolean isRunning { get; set; }
+        public abstract event EventHandler<DataEventArgs>? ChangedPosition;
+        public abstract void StartMoving();
+        public abstract void Move();
+        //public abstract void SetPosition(Vector2 pos);
+        //public abstract void SetVelocity(Vector2 sped);
         public abstract void Notify();
         public abstract void Dispose();
     }

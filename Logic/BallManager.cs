@@ -10,21 +10,26 @@ namespace Logic
 {
     internal class BallManager : IBallManager
     {
-        private readonly IBallRepository _ballRepository;
+        //private readonly IBallRepoddsitory _ballRepository;
+        private readonly IDataAPI _api;
         private readonly Random _random = new Random();
         private Double _width;
         private Double _height;
         private bool motion;
+        private List<IBall> balls;
 
         private List<ILogicBallEvent> _balls;
 
-        public BallManager(IBallRepository? ballRepository = null)
+        public BallManager(IDataAPI? api = null)
         {
-            _ballRepository = ballRepository ?? IDataAPI.GetBallRepository();
+            //_ballRepository = ballRepository ?? IDataAPI.GetBallRepository();
+            _api = api ?? IDataAPI.GetDataApi();
             _balls = new List<ILogicBallEvent>();
+            balls = new List<IBall>();
         }
         public void Create(int number, float width, float height, List<ILogicBallEvent> points)
         {
+            motion = true;
             _width = width;
             _height = height;
             float xPosition;
@@ -40,33 +45,18 @@ namespace Logic
                 yPosition = (float)(yBottomLimit * _random.NextDouble());
                 xVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
                 yVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
-                _ballRepository.Add(IDataAPI.GetBall(10, xPosition, yPosition, xVelocity, yVelocity, _balls[i].SetPosition));
+                //_ballRepository.Add(IDataAPI.GetBall(10, xPosition, yPosition, xVelocity, yVelocity, _balls[i].SetPosition));
+                IBall ball = _api.GetBall(10, xPosition, yPosition, xVelocity, yVelocity, _balls[i].SetPosition);
+                ball.ChangedPosition += CheckCollisionWithWall;
+                ball.ChangedPosition += Killballs;
+
+                balls.Add(ball);
             }
         }
-        public void Move()
-        {
-            if (motion)
-            {
-                return;
-            }
 
-            motion = true;
-            List<IBall> balls = _ballRepository.GetAll();
-
-            foreach (IBall ball in balls)
-            {
-                Task.Run(() =>
-                {
-                    while (motion)
-                    {
-                        MoveBall(ball);
-                        Thread.Sleep(5);
-                    }
-                });
-            }
-        }
-        public void MoveBall(IBall ball)
+        private void CheckCollisionWithWall(Object s, DataEventArgs e)
         {
+            DataEventArgs ball = e as DataEventArgs;
             Vector2 pos = ball.Position;
             Vector2 sped = ball.Speed;
             Vector2 npos = pos + sped;
@@ -87,22 +77,26 @@ namespace Logic
                 newY -= 2 * newVY;
                 newVY = -newVY;
             }
-
-            npos = new Vector2(newX, newY);
             sped = new Vector2(newVX, newVY);
+            ball.VeolcityUpdate?.Invoke(sped);
 
-            ball.SetPosition(npos);
-            ball.SetVelocity(sped);
-            ball.Notify();
         }
         public void StopBalls()
         {
             motion = false;
         }
+
+        public void Killballs(Object s, DataEventArgs e)
+        {
+            if (!motion)
+            {
+                DataEventArgs ball = e as DataEventArgs;
+                ball.BallSmasher?.Invoke();
+            }
+        }
         public void Reset()
         {
             motion = false;
-            _ballRepository.Dispose();
         }
     }
 }

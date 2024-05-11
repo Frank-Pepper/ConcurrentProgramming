@@ -7,15 +7,10 @@ namespace Data
 {
     public interface IDataAPI
     {
-        public static IBall GetBall(float r, float x, float y, float vx, float vy, Action<Vector2>? _subscriber = null)
+        public abstract IBall GetBall(float r, float x, float y, float vx, float vy, Action<Vector2>? _subscriber = null);
+        public  static IDataAPI GetDataApi()
         {
-            return new Ball(r, x, y, vx, vy, _subscriber);
+            return new DataApi();
         }
-
-        public static IBallRepository GetBallRepository()
-        {
-            return new BallRepository();
-        }
-
     }
 }

@@ -9,16 +9,10 @@ namespace Logic
 {
     public interface ILogicAPI
     {
-        public static IBallManager GetBallManager(IBallRepository? ballRepository = default)
+        public static IBallManager GetBallManager(IDataAPI? DataApi = default)
         {
-            return new BallManager(ballRepository);
+            return new BallManager(DataApi);
         }
-
-        //public static ILogicBallEvent GetLogicBallEvent(Double x, Double y, Action<double, double> subscriber)
-        //{
-        //    return new LogicBallEvent(x, y, subscriber);
-        //}
-
         public static ILogicBallEvent GetLogicBallEventSubOnly(Action<Vector2>? subscriber = null)
         {
             return new LogicBallEvent(subscriber);
