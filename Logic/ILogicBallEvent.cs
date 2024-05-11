@@ -6,8 +6,11 @@ using System.Text;
 
 namespace Logic
 {
-    public interface ILogicBallEvent : IDisposable
+    public abstract class ILogicBallEvent : IDisposable
     {
-        void SetPosition(Vector2 pos);
+        public abstract Vector2 Position { get; set; }
+        public abstract void Dispose();
+        public abstract void SetPosition(Vector2 pos);
+
     }
 }

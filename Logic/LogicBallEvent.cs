@@ -8,26 +8,20 @@ namespace Logic
 {
     internal class LogicBallEvent : ILogicBallEvent
     {
-        private Vector2 Position;
+        public override Vector2 Position { get; set; }
         private readonly Action<Vector2>? _subscriber;
-        public LogicBallEvent(Action<Vector2>? subscriber)
+        public LogicBallEvent(Vector2 pos, Action<Vector2>? subscriber)
         {
-            Position = new Vector2(0, 0);
+            Position = pos;
             _subscriber = subscriber;
         }
-        //public LogicBallEvent(Double x, Double y, Action<double, double> subscriber)
-        //{
-        //    X = x;
-        //    Y = y;
-        //    _subscriber = subscriber;
-        //}
-        public void SetPosition(Vector2 pos)
+        public override void SetPosition(Vector2 pos)
         {
             Position = pos;
             _subscriber?.Invoke(pos);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             Debug.WriteLine("HEHE logika here");
         }

@@ -7,7 +7,7 @@ namespace Data
 {
     public interface IDataAPI
     {
-        public abstract IBall GetBall(float r, float x, float y, float vx, float vy, Action<Vector2>? _subscriber = null);
+        public abstract IBall GetBall(int r, Vector2 pos, float vx, float vy, Action<Vector2>? _subscriber = null);
         public  static IDataAPI GetDataApi()
         {
             return new DataApi();

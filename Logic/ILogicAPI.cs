@@ -13,9 +13,9 @@ namespace Logic
         {
             return new BallManager(DataApi);
         }
-        public static ILogicBallEvent GetLogicBallEventSubOnly(Action<Vector2>? subscriber = null)
+        public static ILogicBallEvent GetLogicBallEventSubOnly(Vector2 pos, Action<Vector2>? subscriber = null)
         {
-            return new LogicBallEvent(subscriber);
+            return new LogicBallEvent(pos, subscriber);
         }
 
     }

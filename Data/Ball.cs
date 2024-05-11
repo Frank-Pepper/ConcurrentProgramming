@@ -10,17 +10,17 @@ namespace Data
 {
     internal class Ball : IBall
     {
-        public override Double R { get; set; }
-        public override Vector2 Position { get; set; }
-        public override Vector2 Speed { get; set; }
-        public override Boolean isRunning { get; set; }
+        private int R;
+        private Vector2 Position;
+        private Vector2 Speed;
+        private Boolean isRunning;
         public override event EventHandler<DataEventArgs>? ChangedPosition;
 
         private readonly Action<Vector2>? _subscriber;
-        public Ball(Double r, float x, float y, float vx, float vy, Action<Vector2>? subscriber)
+        public Ball(int r, Vector2 pos, float vx, float vy, Action<Vector2>? subscriber)
         {
             R = r;
-            Position = new Vector2(x, y);
+            Position = pos;
             Speed = new Vector2(vx, vy);
             _subscriber = subscriber;
             isRunning = true;

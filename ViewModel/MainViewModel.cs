@@ -2,12 +2,15 @@
 using ViewModel.Command;
 using Presentation.Model;
 using System.Collections.ObjectModel;
+using Data;
+using System;
 
 namespace Presentation.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
         private AbstractModel _model;
+        private readonly Random _random = new Random();
         public MainViewModel()
         {
             var model = AbstractModel.GetModel();
@@ -30,9 +33,25 @@ namespace Presentation.ViewModel
         public void PrepareGame()
         {
             EndBalls();
+
+
+
+            float xPosition;
+            float yPosition;
+            float xVelocity;
+            float yVelocity;
+            float xRightLimit = _rectWidth - BallRadius;
+            float yBottomLimit = _rectHeigth - BallRadius;
+
+            
+            xVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
+            yVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
             for (int i = 0; i < _number; i++)
             {
-                _coordinates.Add(AbstractModel.CreatePoint(0, 0));
+                xPosition = (float)(xRightLimit * _random.NextDouble());
+                yPosition = (float)(yBottomLimit * _random.NextDouble());
+
+                _coordinates.Add(AbstractModel.CreatePoint(xPosition, yPosition));
             }
             _model.StartGame(_number, _coordinates);
         }

@@ -7,9 +7,9 @@ namespace Data
 {
     internal class DataApi : IDataAPI
     {
-        public IBall GetBall(float r, float x, float y, float vx, float vy, Action<Vector2>? _subscriber = null)
+        public IBall GetBall(int r, Vector2 pos, float vx, float vy, Action<Vector2>? _subscriber = null)
         {
-            return new Ball(r, x, y, vx, vy, _subscriber);
+            return new Ball(r, pos, vx, vy, _subscriber);
         }
     }
 }

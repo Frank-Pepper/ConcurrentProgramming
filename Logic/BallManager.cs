@@ -15,6 +15,7 @@ namespace Logic
         private readonly Random _random = new Random();
         private Double _width;
         private Double _height;
+        private int _radius;
         private bool motion;
         private List<IBall> balls;
 
@@ -27,26 +28,23 @@ namespace Logic
             _balls = new List<ILogicBallEvent>();
             balls = new List<IBall>();
         }
-        public void Create(int number, float width, float height, List<ILogicBallEvent> points)
+        public void Create(int number, int radius, float width, float height, List<ILogicBallEvent> points)
         {
             motion = true;
             _width = width;
             _height = height;
-            float xPosition;
-            float yPosition;
+            _radius = radius;
             float xVelocity;
             float yVelocity;
-            float xRightLimit = width - 10;
-            float yBottomLimit = height - 10;
+            float xRightLimit = width - _radius;
+            float yBottomLimit = height - _radius;
             _balls = points;
             for (int i = 0; i < number; i++)
             {
-                xPosition = (float)(xRightLimit * _random.NextDouble());
-                yPosition = (float)(yBottomLimit * _random.NextDouble());
                 xVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
                 yVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
-                //_ballRepository.Add(IDataAPI.GetBall(10, xPosition, yPosition, xVelocity, yVelocity, _balls[i].SetPosition));
-                IBall ball = _api.GetBall(10, xPosition, yPosition, xVelocity, yVelocity, _balls[i].SetPosition);
+                Vector2 pos = _balls[i].Position;
+                IBall ball = _api.GetBall(_radius, pos, xVelocity, yVelocity, _balls[i].SetPosition);
                 ball.ChangedPosition += CheckCollisionWithWall;
                 ball.ChangedPosition += Killballs;
 
@@ -66,13 +64,13 @@ namespace Logic
             float newVX = sped.X;
             float newVY = sped.Y;
 
-            if (newX < 0 || newX > _width - 10)
+            if (newX < 0 || newX > _width - _radius)
             {
                 newX -= 2 * newVX;
                 newVX = -newVX;
             }
 
-            if (newY < 0 || newY > _height - 10)
+            if (newY < 0 || newY > _height - _radius)
             {
                 newY -= 2 * newVY;
                 newVY = -newVY;
@@ -97,6 +95,7 @@ namespace Logic
         public void Reset()
         {
             motion = false;
+            balls.Clear();
         }
     }
 }

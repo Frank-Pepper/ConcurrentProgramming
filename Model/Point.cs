@@ -5,13 +5,14 @@ namespace Presentation.Model
 {
     internal class Point : IPoint
     {
+        public Vector2 Position { get; set; }
         public Double Xx { get; set; }
         public Double Yy { get; set; }
         public Point() { }
-        public Point(Double _x, Double _y) { Xx = _x; Yy = _y; }
+        public Point(float _x, float _y) { Position = new Vector2(_x, _y); }
 
-        public Double X { get => Xx; }
-        public Double Y { get => Yy; }
+        public Double X { get => Position.X; }
+        public Double Y { get => Position.Y; }
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -23,8 +24,9 @@ namespace Presentation.Model
 
         public void SetPosition(Vector2 pos)
         {
-            Xx = pos.X;
-            Yy = pos.Y;
+            //Xx = pos.X;
+            //Yy = pos.Y;
+            Position = pos;
             NotifyPropertyChanged(nameof(X));
             NotifyPropertyChanged(nameof(Y));
         }

@@ -10,6 +10,7 @@ namespace Presentation.Model
 {
     public interface IPoint : INotifyPropertyChanged
     {
+        Vector2 Position { get; set; }
         Double X { get;  }
         Double Y { get; }
         new event PropertyChangedEventHandler? PropertyChanged;

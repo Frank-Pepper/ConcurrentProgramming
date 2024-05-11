@@ -21,9 +21,9 @@ namespace Presentation.Model
             List<ILogicBallEvent> lBall = new();
             for (int i = 0; i < BallNumber; i++)
             {
-                lBall.Add(ILogicAPI.GetLogicBallEventSubOnly(Points[i].SetPosition));
+                lBall.Add(ILogicAPI.GetLogicBallEventSubOnly(Points[i].Position, Points[i].SetPosition));
             }
-            Manager.Create(BallNumber, RectangleWidth, RectangleHeigth, lBall);
+            Manager.Create(BallNumber, BallRadius, RectangleWidth, RectangleHeigth, lBall);
         }
         public override void StopGame()
         {
