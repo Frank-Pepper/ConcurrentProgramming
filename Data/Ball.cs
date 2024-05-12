@@ -17,7 +17,6 @@ namespace Data
         private Vector2 Speed { get; set; }
         private Boolean IsRunning { get; set; }
         private readonly Object lockObject = new Object();
-        public override event EventHandler<EventArgs>? ChangedPosition;
         public Ball(int r, int mass, int id, Vector2 pos, Vector2 sped)
         {
             R = r;
@@ -32,7 +31,7 @@ namespace Data
             thread2.Start();
         }
 
-        public override void StartMoving()
+        private void StartMoving()
         {
             while(IsRunning)
             {
@@ -44,8 +43,8 @@ namespace Data
             }
         }
 
-        public override void Move() { Position += Speed; }
-        public override void CheckPosition()
+        private void Move() { Position += Speed; }
+        private void CheckPosition()
         {
             while (IsRunning)
             {
@@ -56,6 +55,7 @@ namespace Data
                 Thread.Sleep(5);
             }
         }
+        public override event EventHandler<EventArgs>? ChangedPosition;
         public override int GetId() { return Id; }
         public override int GetR() {  return R; }
         public override int GetM() {  return Mass; }

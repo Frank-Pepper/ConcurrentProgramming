@@ -37,17 +37,13 @@ namespace Presentation.ViewModel
             }
             float xPosition;
             float yPosition;
-            float xVelocity;
-            float yVelocity;
             float xRightLimit = _rectWidth - BallRadius;
             float yBottomLimit = _rectHeigth - BallRadius;
-            xVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
-            yVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
+            
             while (_coordinates.Count < Number)
             {
                 xPosition = (float)(xRightLimit * _random.NextDouble());
                 yPosition = (float)(yBottomLimit * _random.NextDouble());
-
                 _coordinates.Add(AbstractModel.CreatePoint(xPosition, yPosition));
             }
             _model.StartGame(_number, _coordinates);

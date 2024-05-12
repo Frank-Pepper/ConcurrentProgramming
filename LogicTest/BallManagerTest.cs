@@ -76,18 +76,6 @@ namespace LogicTest
         {
             Speed = sped;
         }
-        public override void StartMoving()
-        {
-            return;
-        }
-        public override void Move()
-        {
-            return;
-        }
-        public override void CheckPosition()
-        {
-            return;
-        }
         public override void Dispose()
         {
             this.Dispose();

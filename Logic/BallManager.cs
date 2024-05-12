@@ -83,13 +83,13 @@ namespace Logic
 
             if (newX < 0 || newX > _table.GetRectangleWidth() - _radius)
             {
-                newX -= 2 * newVX;
+                _ = 2 * newVX;
                 newVX = -newVX;
             }
 
             if (newY < 0 || newY > _table.GetRectangleHeight() - _radius)
             {
-                newY -= 2 * newVY;
+                _ = 2 * newVY;
                 newVY = -newVY;
             }
             sped = new Vector2(newVX, newVY);
