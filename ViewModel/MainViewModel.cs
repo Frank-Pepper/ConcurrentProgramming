@@ -2,8 +2,6 @@
 using ViewModel.Command;
 using Presentation.Model;
 using System.Collections.ObjectModel;
-using Data;
-using System;
 
 namespace Presentation.ViewModel
 {
