@@ -98,18 +98,42 @@ namespace LogicTest
         {
             this.Dispose();
         }
-        
-        //TESTS
+    }
+    internal class TestLogicBallEvent : ILogicBallEvent
+    {
+        public override Vector2 Position { get; set; }
+        private readonly Action<Vector2>? _subscriber;
+        public TestLogicBallEvent(Vector2 pos, Action<Vector2>? subscriber = null)
+        {
+            Position = pos;
+        }
+        public override void SetPosition(Vector2 pos)
+        {
+            Position = pos;
+        }
 
+        public override void Dispose()
+        {
+            Debug.WriteLine("HEHE logika here");
+        }
+    }
+    //TESTS
+
+    [TestClass]
+    public class BallManagerTest
+    {
         [TestMethod]
         public void CheckManagerCreatingGame()
         {
             var TestDataAPI = new TestDataAPI();
             var TestBallManager = ILogicAPI.GetBallManager(100, 200, TestDataAPI);
             List<ILogicBallEvent> logicBallEvents = new List<ILogicBallEvent>();
+            for (int i = 0; i < 5; i++)
+            {
+                logicBallEvents.Add(new TestLogicBallEvent(new Vector2(1.0f, 1.0f), null));
+            }
             TestBallManager.Create(5, 1, 2, logicBallEvents);
             Assert.AreEqual(TestDataAPI.GetBallCalls, 5);
         }
     }
-
 }

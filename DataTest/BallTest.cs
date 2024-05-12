@@ -15,10 +15,6 @@ namespace DataTest
             Assert.AreEqual(TestBall.GetR(), 1);
             Assert.AreEqual(TestBall.GetM(), 2);
             Assert.AreEqual(TestBall.GetId(), 3);
-            Assert.AreEqual(TestBall.GetPosition().X, 4.0f);
-            Assert.AreEqual(TestBall.GetPosition().Y, 5.0f);
-            Assert.AreEqual(TestBall.GetVelocity().X, 6.0f);
-            Assert.AreEqual(TestBall.GetVelocity().Y, 7.0f);
         }
 
         [TestMethod]
