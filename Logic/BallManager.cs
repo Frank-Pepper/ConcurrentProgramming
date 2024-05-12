@@ -85,36 +85,37 @@ namespace Logic
         {
             lock (table)
             {
-                IBall myball = (IBall)s;
-                Vector2 pos = myball.GetPosition();
-                Vector2 sped = myball.GetVeolcity();
-                Vector2 npos = pos + sped;
-                int id = myball.GetId();
-                Vector2 distance;
-                float centreDistance = 4 * _radius * _radius;
+                IBall myBall = (IBall)s;
+                Vector2 myBallPos = myBall.GetPosition();
+                Vector2 myBallSpe = myBall.GetVeolcity();
+                Vector2 npos = myBallPos + myBallSpe;
+                int myBallID = myBall.GetId();
+                float distance;
                 foreach(var ball in balls)
                 {
-                    Vector2 ball2pos = ball.GetPosition();
-                    distance = ball2pos - npos;
-                    float cartesian = distance.X * distance.X + distance.Y * distance.Y;
-                    int ballId = ball.GetId();
-                    if ( cartesian <= centreDistance)
+                    int currentBallID = ball.GetId();
+                    Vector2 currentBallPos = ball.GetPosition();
+                    Vector2 currentBallSpe = ball.GetVeolcity();
+                    distance = Vector2.Distance(myBallPos, currentBallPos);
+                    if(distance <= (myBall.GetR())/2 + (ball.GetR())/2)
                     {
-                        if (id != ballId)
+                        if(myBallID != currentBallID)
                         {
-                            float myBallXSpeed = myball.GetVeolcity().X * (myball.GetM() - ball.GetM()) / (myball.GetM() + ball.GetM())
-                                           + ball.GetM() * ball.GetVeolcity().X * 2f / (myball.GetM() + ball.GetM());
-                            float myBallYSpeed = myball.GetVeolcity().Y * (myball.GetM() - ball.GetM()) / (myball.GetM() + ball.GetM())
-                                                   + ball.GetM() * ball.GetVeolcity().Y * 2f / (myball.GetM() + ball.GetM());
+                            if (distance > Vector2.Distance(myBallPos + myBallSpe, currentBallPos + currentBallSpe))
+                            {
+                                float myBallXSpeed = myBall.GetVeolcity().X * (myBall.GetM() - ball.GetM()) / (myBall.GetM() + ball.GetM())
+                                           + ball.GetM() * ball.GetVeolcity().X * 2f / (myBall.GetM() + ball.GetM());
+                                float myBallYSpeed = myBall.GetVeolcity().Y * (myBall.GetM() - ball.GetM()) / (myBall.GetM() + ball.GetM())
+                                                       + ball.GetM() * ball.GetVeolcity().Y * 2f / (myBall.GetM() + ball.GetM());
 
-                            float ballXSpeed = ball.GetVeolcity().X * (ball.GetM() - myball.GetM()) / (ball.GetM() + ball.GetM())
-                                              + myball.GetM() * myball.GetVeolcity().X * 2f / (ball.GetM() + myball.GetM());
-                            float ballYSpeed = ball.GetVeolcity().Y * (ball.GetM() - myball.GetM()) / (ball.GetM() + ball.GetM())
-                                              + myball.GetM() * myball.GetVeolcity().Y * 2f / (ball.GetM() + myball.GetM());
-
-                            myball.SetVelocity(new Vector2(myBallXSpeed, myBallYSpeed));
-                            ball.SetVelocity(new Vector2(ballXSpeed, ballYSpeed));
-                            Debug.WriteLine(ballId + " Zderzenie kull " + id);
+                                float ballXSpeed = ball.GetVeolcity().X * (ball.GetM() - myBall.GetM()) / (ball.GetM() + ball.GetM())
+                                                  + myBall.GetM() * myBall.GetVeolcity().X * 2f / (ball.GetM() + myBall.GetM());
+                                float ballYSpeed = ball.GetVeolcity().Y * (ball.GetM() - myBall.GetM()) / (ball.GetM() + ball.GetM())
+                                                  + myBall.GetM() * myBall.GetVeolcity().Y * 2f / (ball.GetM() + myBall.GetM());
+                                myBall.SetVelocity(new Vector2(myBallXSpeed, myBallYSpeed));
+                                ball.SetVelocity(new Vector2(ballXSpeed, ballYSpeed));
+                                Debug.WriteLine(myBallID + " Zderzenie kull " + currentBallID);
+                            }
                         }
                     }
                 }
