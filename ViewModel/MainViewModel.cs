@@ -9,8 +9,8 @@ namespace Presentation.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private AbstractModel _model;
-        private readonly Random _random = new Random();
+        private readonly AbstractModel _model;
+        private readonly Random _random = new();
         public MainViewModel()
         {
             var model = AbstractModel.GetModel();
@@ -23,7 +23,7 @@ namespace Presentation.ViewModel
             _coordinates = new ObservableCollection<IPoint>();
 
             //SetCommand = new RelayCommand(() => PrepareGame());
-            StartCommand = new RelayCommand(() => Background());
+            StartCommand = new RelayCommand(() => StartGame());
             AddCommand = new RelayCommand(() => AddBalls());
             SubtractCommand = new RelayCommand(() => SubtractBalls());
             StopCommand = new RelayCommand(() => StopBalls());
@@ -32,21 +32,18 @@ namespace Presentation.ViewModel
 
         public void PrepareGame()
         {
-            EndBalls();
-
-
-
+            if (Coordinates.Count != Number) {
+                EndBalls();
+            }
             float xPosition;
             float yPosition;
             float xVelocity;
             float yVelocity;
             float xRightLimit = _rectWidth - BallRadius;
             float yBottomLimit = _rectHeigth - BallRadius;
-
-            
             xVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
             yVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
-            for (int i = 0; i < _number; i++)
+            while (_coordinates.Count < Number)
             {
                 xPosition = (float)(xRightLimit * _random.NextDouble());
                 yPosition = (float)(yBottomLimit * _random.NextDouble());
@@ -55,13 +52,9 @@ namespace Presentation.ViewModel
             }
             _model.StartGame(_number, _coordinates);
         }
-        public void Background()
+        public void StartGame()
         {
-            if (Coordinates.Count == 0)
-            {
-                PrepareGame();
-            }
-            //_model.Move();
+            PrepareGame();
             Coordinates = _coordinates;
         }
         private int _number;
@@ -82,7 +75,7 @@ namespace Presentation.ViewModel
         {
             get => _ballRadius;
         }
-        private ObservableCollection<IPoint> _coordinates;
+        private readonly ObservableCollection<IPoint> _coordinates;
         public ObservableCollection<IPoint> Coordinates
         {
             get => _coordinates;
@@ -108,6 +101,7 @@ namespace Presentation.ViewModel
         public void EndBalls()
         {
             _model.EndGame();
+            _coordinates.Clear();
             Coordinates.Clear();
         }
 

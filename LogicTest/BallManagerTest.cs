@@ -8,10 +8,10 @@ namespace LogicTest
     internal class TestDataAPI : IDataAPI
     {
         public int GetBallCalls = 0;
-        public IBall GetBall(int r, int mass, int id, Vector2 pos, Vector2 sped, Action<Vector2>? subscriber = null)
+        public IBall GetBall(int r, int mass, int id, Vector2 pos, Vector2 sped)
         {
             GetBallCalls++;
-            return new TestBall(r, mass, id, pos, sped, subscriber);
+            return new TestBall(r, mass, id, pos, sped);
         }
         public ITable GetTable(int width, int height)
         {
@@ -20,8 +20,8 @@ namespace LogicTest
     }
     internal class TestTable : ITable
     {
-        private int _width;
-        private int _height;
+        private readonly int _width;
+        private readonly int _height;
         public TestTable(int width, int height)
         {
             _width = width;
@@ -44,15 +44,13 @@ namespace LogicTest
         private Vector2 Position { get; set; }
         private Vector2 Speed { get; set; }
         public override event EventHandler<EventArgs>? ChangedPosition;
-        private readonly Action<Vector2>? _subscriber;
-        public TestBall(int r, int mass, int id, Vector2 pos, Vector2 sped, Action<Vector2>? subscriber)
+        public TestBall(int r, int mass, int id, Vector2 pos, Vector2 sped)
         {
             R = r;
             Mass = mass;
             Id = id;
             Position = pos;
             Speed = sped;
-            _subscriber = subscriber;
         }
         public override Vector2 GetPosition()
         {
@@ -90,10 +88,6 @@ namespace LogicTest
         {
             return;
         }
-        public override void Notify()
-        {
-            return;
-        }
         public override void Dispose()
         {
             this.Dispose();
@@ -102,14 +96,19 @@ namespace LogicTest
     internal class TestLogicBallEvent : ILogicBallEvent
     {
         public override Vector2 Position { get; set; }
+        public override Vector2 Speed { get; set; }
         private readonly Action<Vector2>? _subscriber;
-        public TestLogicBallEvent(Vector2 pos, Action<Vector2>? subscriber = null)
+        public TestLogicBallEvent(Vector2 pos, Action<Vector2>? subscriber)
         {
             Position = pos;
+            _subscriber = subscriber;
         }
-        public override void SetPosition(Vector2 pos)
+        public override void SetValues(Object s, EventArgs e)
         {
-            Position = pos;
+            IBall ball = (IBall)s;
+            Position = ball.GetPosition();
+            Speed = ball.GetVelocity();
+            _subscriber?.Invoke(Position);
         }
 
         public override void Dispose()
@@ -127,7 +126,7 @@ namespace LogicTest
         {
             var TestDataAPI = new TestDataAPI();
             var TestBallManager = ILogicAPI.GetBallManager(100, 200, TestDataAPI);
-            List<ILogicBallEvent> logicBallEvents = new List<ILogicBallEvent>();
+            List<ILogicBallEvent> logicBallEvents = new();
             for (int i = 0; i < 5; i++)
             {
                 logicBallEvents.Add(new TestLogicBallEvent(new Vector2(1.0f, 1.0f), null));

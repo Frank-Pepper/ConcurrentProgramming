@@ -13,11 +13,11 @@ namespace Logic
     {
         private readonly IDataAPI _api;
         private readonly Random _random = new Random();
-        private ITable _table;
+        private readonly ITable _table;
         private int _radius;
         private int _mass;
-        private object table = new object();
-        private List<IBall> balls;
+        private readonly object table = new object();
+        private readonly List<IBall> balls;
 
         private List<ILogicBallEvent> _balls;
 
@@ -34,20 +34,37 @@ namespace Logic
             _mass = mass;
             float xVelocity;
             float yVelocity;
-            _balls = points;
+            
             lock (table)
             {
-                for (int i = 0; i < number; i++)
+                if (_balls.Count == number)
                 {
-                    xVelocity = (float)(0.5 * (_random.NextDouble() * 2 - 1));
-                    yVelocity = (float)(0.5 * (_random.NextDouble() * 2 - 1));
-                    Vector2 pos = _balls[i].Position;
-                    Vector2 sped = new Vector2(xVelocity, yVelocity);
-                    IBall ball = _api.GetBall(_radius, _mass, i, pos, sped);
-                    ball.ChangedPosition += _balls[i].SetValues;
-                    ball.ChangedPosition += CheckCollisionWithWall;
-                    ball.ChangedPosition += CheckCollisionWithBalls;
-                    balls.Add(ball);
+                    for (int i = 0; i < _balls.Count; i++)
+                    {
+                        Vector2 pos = _balls[i].Position;
+                        Vector2 sped = _balls[i].Speed;
+                        IBall ball = _api.GetBall(_radius, _mass, i, pos, sped);
+                        ball.ChangedPosition += _balls[i].SetValues;
+                        ball.ChangedPosition += CheckCollisionWithWall;
+                        ball.ChangedPosition += CheckCollisionWithBalls;
+                        balls.Add(ball);
+                    }
+                }
+                else
+                {
+                    _balls = points;
+                    for (int i = 0; i < number; i++)
+                    {
+                        xVelocity = (float)(0.5 * (_random.NextDouble() * 2 - 1));
+                        yVelocity = (float)(0.5 * (_random.NextDouble() * 2 - 1));
+                        Vector2 pos = _balls[i].Position;
+                        Vector2 sped = new Vector2(xVelocity, yVelocity);
+                        IBall ball = _api.GetBall(_radius, _mass, i, pos, sped);
+                        ball.ChangedPosition += _balls[i].SetValues;
+                        ball.ChangedPosition += CheckCollisionWithWall;
+                        ball.ChangedPosition += CheckCollisionWithBalls;
+                        balls.Add(ball);
+                    }
                 }
             }
         }
@@ -124,11 +141,6 @@ namespace Logic
         }
         public void StopBalls()
         {
-            //motion = false;
-        }
-        public void Reset()
-        {
-            //motion = false;
             lock (table)
             {
                 foreach (var ball in balls)
@@ -137,6 +149,20 @@ namespace Logic
                 }
                 balls.Clear();
             }
+        
+        }
+        public void Reset()
+        {
+
+            lock (table)
+            {
+                foreach (var ball in balls)
+                {
+                    ball.Dispose();
+                }
+                balls.Clear();
+            }
+            _balls.Clear();
         }
     }
 }
