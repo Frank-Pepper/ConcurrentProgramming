@@ -6,7 +6,7 @@ namespace Presentation.Model
     public abstract class AbstractModel
     {
         public abstract int RectangleWidth { get; }
-        public abstract int RectangleHeigth { get; }
+        public abstract int RectangleHeight { get; }
         public abstract int BallRadius { get; }
         public abstract int BallMass { get; }
         public abstract List<IPoint> Points { get; set; }

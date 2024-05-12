@@ -11,5 +11,9 @@ namespace Data
         {
             return new Ball(r, mass, id, pos, sped, _subscriber);
         }
+        public ITable GetTable(int width, int height)
+        {
+            return new Table(width, height);
+        }
     }
 }

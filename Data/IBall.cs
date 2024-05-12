@@ -10,7 +10,7 @@ namespace Data
     public abstract class IBall : IDisposable
     {
         public abstract Vector2 GetPosition();
-        public abstract Vector2 GetVeolcity();
+        public abstract Vector2 GetVelocity();
         public abstract int GetId();
         public abstract int GetR();
         public abstract int GetM();

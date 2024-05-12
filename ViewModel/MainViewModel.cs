@@ -15,7 +15,7 @@ namespace Presentation.ViewModel
         {
             var model = AbstractModel.GetModel();
             _ballRadius = model.BallRadius;
-            _rectHeigth = model.RectangleHeigth;
+            _rectHeigth = model.RectangleHeight;
             _rectWidth = model.RectangleWidth;
             _model = model;
             _number = 7;

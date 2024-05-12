@@ -7,12 +7,12 @@ namespace Presentation.Model
     {
         public ModelProperties(IBallManager? ballManager = null)
         {
-            Manager = ballManager ?? ILogicAPI.GetBallManager();
+            Manager = ballManager ?? ILogicAPI.GetBallManager(RectangleWidth, RectangleHeight);
             Points = new();
         }
         public override int RectangleWidth => 500;
 
-        public override int RectangleHeigth => 400;
+        public override int RectangleHeight => 400;
         public override int BallRadius => 20;
         public override int BallMass => 5;
         public override List<IPoint> Points { get; set; }
@@ -24,7 +24,7 @@ namespace Presentation.Model
             {
                 lBall.Add(ILogicAPI.GetLogicBallEventSubOnly(Points[i].Position, Points[i].SetPosition));
             }
-            Manager.Create(BallNumber, BallRadius, BallMass, RectangleWidth, RectangleHeigth, lBall);
+            Manager.Create(BallNumber, BallRadius, BallMass, lBall);
         }
         public override void StopGame()
         {
