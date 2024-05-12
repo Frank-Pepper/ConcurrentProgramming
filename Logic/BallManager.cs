@@ -16,21 +16,18 @@ namespace Logic
         private Double _width;
         private Double _height;
         private int _radius;
-        private bool motion;
         private List<IBall> balls;
 
         private List<ILogicBallEvent> _balls;
 
         public BallManager(IDataAPI? api = null)
         {
-            //_ballRepository = ballRepository ?? IDataAPI.GetBallRepository();
             _api = api ?? IDataAPI.GetDataApi();
             _balls = new List<ILogicBallEvent>();
             balls = new List<IBall>();
         }
         public void Create(int number, int radius, float width, float height, List<ILogicBallEvent> points)
         {
-            motion = true;
             _width = width;
             _height = height;
             _radius = radius;
@@ -41,22 +38,22 @@ namespace Logic
             _balls = points;
             for (int i = 0; i < number; i++)
             {
-                xVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
-                yVelocity = 0.5f * (_random.Next(0, 2) * 2 - 1);
+                xVelocity = (float)(0.5 * (_random.Next(0, 2) * 2 - 1));
+                yVelocity = (float)(0.5 * (_random.Next(0, 2) * 2 - 1));
                 Vector2 pos = _balls[i].Position;
-                IBall ball = _api.GetBall(_radius, pos, xVelocity, yVelocity, _balls[i].SetPosition);
+                Vector2 sped = new Vector2(xVelocity, yVelocity);
+                IBall ball = _api.GetBall(_radius, pos, sped, _balls[i].SetPosition);
                 ball.ChangedPosition += CheckCollisionWithWall;
-                ball.ChangedPosition += Killballs;
 
                 balls.Add(ball);
             }
         }
 
-        private void CheckCollisionWithWall(Object s, DataEventArgs e)
+        private void CheckCollisionWithWall(Object s, EventArgs e)
         {
-            DataEventArgs ball = e as DataEventArgs;
-            Vector2 pos = ball.Position;
-            Vector2 sped = ball.Speed;
+            IBall ball = (IBall) s;
+            Vector2 pos = ball.GetPosition();
+            Vector2 sped = ball.GetVeolcity();
             Vector2 npos = pos + sped;
 
             float newX = npos.X;
@@ -76,25 +73,20 @@ namespace Logic
                 newVY = -newVY;
             }
             sped = new Vector2(newVX, newVY);
-            ball.VeolcityUpdate?.Invoke(sped);
+            ball.SetVelocity(sped);
 
         }
         public void StopBalls()
         {
-            motion = false;
-        }
-
-        public void Killballs(Object s, DataEventArgs e)
-        {
-            if (!motion)
-            {
-                DataEventArgs ball = e as DataEventArgs;
-                ball.BallSmasher?.Invoke();
-            }
+            //motion = false;
         }
         public void Reset()
         {
-            motion = false;
+            //motion = false;
+            foreach (var ball in balls)
+            {
+                ball.Dispose();
+            }
             balls.Clear();
         }
     }

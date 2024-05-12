@@ -10,45 +10,64 @@ namespace Data
 {
     internal class Ball : IBall
     {
-        private int R;
-        private Vector2 Position;
-        private Vector2 Speed;
-        private Boolean isRunning;
-        public override event EventHandler<DataEventArgs>? ChangedPosition;
+        private int R { get; }
+        private Vector2 Position { get; set; }
+        private Vector2 Speed { get; set; }
+        private Boolean isRunning { get; set; }
+        private Object lockObject = new Object();
+        public override event EventHandler<EventArgs>? ChangedPosition;
 
         private readonly Action<Vector2>? _subscriber;
-        public Ball(int r, Vector2 pos, float vx, float vy, Action<Vector2>? subscriber)
+        public Ball(int r, Vector2 pos, Vector2 sped, Action<Vector2>? subscriber)
         {
             R = r;
             Position = pos;
-            Speed = new Vector2(vx, vy);
+            Speed = sped;
             _subscriber = subscriber;
             isRunning = true;
-            Task.Run(StartMoving);
+            Thread thread1 = new Thread(StartMoving);
+            thread1.Start();
+            Thread thread2 = new Thread(CheckPosition);
+            thread2.Start();
         }
 
         public override void StartMoving()
         {
             while(isRunning)
             {
-                Move();
-                Thread.Sleep(5);
+                lock (lockObject)
+                {
+                    Move();
+                }
                 Notify();
+                Thread.Sleep(5);
             }
         }
 
         public override void Move()
         {
             Position += Speed;
-            DataEventArgs args = new DataEventArgs(Position, Speed, SetPosition, SetVelocity, Dispose);
-            ChangedPosition?.Invoke(this, args);
         }
-        private void SetPosition(Vector2 pos)
+        public override void CheckPosition()
         {
-            Position = pos;
+            while (isRunning)
+            {
+                lock (lockObject)
+                {
+                    ChangedPosition?.Invoke(this, new EventArgs());
+                }
+                Thread.Sleep(5);
+            }
         }
-
-        private void SetVelocity(Vector2 sped)
+        public override Vector2 GetPosition()
+        {
+            return Position;
+        }
+        public override Vector2 GetVeolcity()
+        {
+            return Speed;
+        }
+        public override void SetVelocity(Vector2 sped)
         {
             Speed = sped;
         }
