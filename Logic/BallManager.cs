@@ -16,6 +16,8 @@ namespace Logic
         private Double _width;
         private Double _height;
         private int _radius;
+        private int _mass;
+        private object table = new object();
         private List<IBall> balls;
 
         private List<ILogicBallEvent> _balls;
@@ -26,15 +28,14 @@ namespace Logic
             _balls = new List<ILogicBallEvent>();
             balls = new List<IBall>();
         }
-        public void Create(int number, int radius, float width, float height, List<ILogicBallEvent> points)
+        public void Create(int number, int radius, int mass, float width, float height, List<ILogicBallEvent> points)
         {
             _width = width;
             _height = height;
             _radius = radius;
+            _mass = mass;
             float xVelocity;
             float yVelocity;
-            float xRightLimit = width - _radius;
-            float yBottomLimit = height - _radius;
             _balls = points;
             for (int i = 0; i < number; i++)
             {
@@ -42,7 +43,7 @@ namespace Logic
                 yVelocity = (float)(0.5 * (_random.Next(0, 2) * 2 - 1));
                 Vector2 pos = _balls[i].Position;
                 Vector2 sped = new Vector2(xVelocity, yVelocity);
-                IBall ball = _api.GetBall(_radius, pos, sped, _balls[i].SetPosition);
+                IBall ball = _api.GetBall(_radius, _mass, i, pos, sped, _balls[i].SetPosition);
                 ball.ChangedPosition += CheckCollisionWithWall;
 
                 balls.Add(ball);
@@ -74,6 +75,19 @@ namespace Logic
             }
             sped = new Vector2(newVX, newVY);
             ball.SetVelocity(sped);
+
+        }
+        private void CheckCollisionWithBalls(Object s, EventArgs e)
+        {
+            lock (table)
+            {
+                IBall myball = (IBall)s;
+                Vector2 pos = myball.GetPosition();
+                Vector2 sped = myball.GetVeolcity();
+                int id = myball.GetId();
+
+
+            }
 
         }
         public void StopBalls()

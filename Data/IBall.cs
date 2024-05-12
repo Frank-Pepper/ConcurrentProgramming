@@ -11,6 +11,8 @@ namespace Data
     {
         public abstract Vector2 GetPosition();
         public abstract Vector2 GetVeolcity();
+        public abstract int GetId();
+        public abstract int GetR();
         public abstract void SetVelocity(Vector2 sped);
         public abstract event EventHandler<EventArgs>? ChangedPosition;
         public abstract void StartMoving();

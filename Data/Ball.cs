@@ -11,6 +11,8 @@ namespace Data
     internal class Ball : IBall
     {
         private int R { get; }
+        private int Mass { get; }
+        private int Id { get; }
         private Vector2 Position { get; set; }
         private Vector2 Speed { get; set; }
         private Boolean isRunning { get; set; }
@@ -18,9 +20,11 @@ namespace Data
         public override event EventHandler<EventArgs>? ChangedPosition;
 
         private readonly Action<Vector2>? _subscriber;
-        public Ball(int r, Vector2 pos, Vector2 sped, Action<Vector2>? subscriber)
+        public Ball(int r, int mass, int id, Vector2 pos, Vector2 sped, Action<Vector2>? subscriber)
         {
             R = r;
+            Mass = mass;
+            Id = id;
             Position = pos;
             Speed = sped;
             _subscriber = subscriber;
@@ -44,10 +48,7 @@ namespace Data
             }
         }
 
-        public override void Move()
-        {
-            Position += Speed;
-        }
+        public override void Move() { Position += Speed; }
         public override void CheckPosition()
         {
             while (isRunning)
@@ -59,22 +60,12 @@ namespace Data
                 Thread.Sleep(5);
             }
         }
-        public override Vector2 GetPosition()
-        {
-            return Position;
-        }
-        public override Vector2 GetVeolcity()
-        {
-            return Speed;
-        }
-        public override void SetVelocity(Vector2 sped)
-        {
-            Speed = sped;
-        }
-        public override void Notify()
-        {
-            _subscriber?.Invoke(Position);
-        }
+        public override int GetId() { return Id; }
+        public override int GetR() {  return R; }
+        public override Vector2 GetPosition() { return Position; }
+        public override Vector2 GetVeolcity() { return Speed; }
+        public override void SetVelocity(Vector2 sped) { Speed = sped; }
+        public override void Notify() { _subscriber?.Invoke(Position); }
         public override void Dispose()
         {
             isRunning = false;

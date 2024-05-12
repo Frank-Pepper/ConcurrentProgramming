@@ -14,6 +14,7 @@ namespace Presentation.Model
 
         public override int RectangleHeigth => 400;
         public override int BallRadius => 10;
+        public override int BallMass => 5;
         public override List<IPoint> Points { get; set; }
         public IBallManager Manager { get; set; }
         public override void StartGame(int BallNumber, ObservableCollection<IPoint> Points)
@@ -23,7 +24,7 @@ namespace Presentation.Model
             {
                 lBall.Add(ILogicAPI.GetLogicBallEventSubOnly(Points[i].Position, Points[i].SetPosition));
             }
-            Manager.Create(BallNumber, BallRadius, RectangleWidth, RectangleHeigth, lBall);
+            Manager.Create(BallNumber, BallRadius, BallMass, RectangleWidth, RectangleHeigth, lBall);
         }
         public override void StopGame()
         {
