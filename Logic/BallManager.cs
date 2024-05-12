@@ -43,7 +43,8 @@ namespace Logic
                     yVelocity = (float)(0.5 * (_random.NextDouble() * 2 - 1));
                     Vector2 pos = _balls[i].Position;
                     Vector2 sped = new Vector2(xVelocity, yVelocity);
-                    IBall ball = _api.GetBall(_radius, _mass, i, pos, sped, _balls[i].SetPosition);
+                    IBall ball = _api.GetBall(_radius, _mass, i, pos, sped);
+                    ball.ChangedPosition += _balls[i].SetValues;
                     ball.ChangedPosition += CheckCollisionWithWall;
                     ball.ChangedPosition += CheckCollisionWithBalls;
                     balls.Add(ball);

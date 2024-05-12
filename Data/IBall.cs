@@ -19,7 +19,6 @@ namespace Data
         public abstract void StartMoving();
         public abstract void Move();
         public abstract void CheckPosition();
-        public abstract void Notify();
         public abstract void Dispose();
     }
 }

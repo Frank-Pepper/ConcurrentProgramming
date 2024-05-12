@@ -18,16 +18,13 @@ namespace Data
         private Boolean isRunning { get; set; }
         private Object lockObject = new Object();
         public override event EventHandler<EventArgs>? ChangedPosition;
-
-        private readonly Action<Vector2>? _subscriber;
-        public Ball(int r, int mass, int id, Vector2 pos, Vector2 sped, Action<Vector2>? subscriber)
+        public Ball(int r, int mass, int id, Vector2 pos, Vector2 sped)
         {
             R = r;
             Mass = mass;
             Id = id;
             Position = pos;
             Speed = sped;
-            _subscriber = subscriber;
             isRunning = true;
             Thread thread1 = new Thread(StartMoving);
             thread1.Start();
@@ -43,7 +40,6 @@ namespace Data
                 {
                     Move();
                 }
-                Notify();
                 Thread.Sleep(5);
             }
         }
@@ -66,7 +62,6 @@ namespace Data
         public override Vector2 GetPosition() { return Position; }
         public override Vector2 GetVelocity() { return Speed; }
         public override void SetVelocity(Vector2 sped) { Speed = sped; }
-        public override void Notify() { _subscriber?.Invoke(Position); }
         public override void Dispose()
         {
             isRunning = false;

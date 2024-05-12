@@ -9,8 +9,8 @@ namespace Logic
     public abstract class ILogicBallEvent : IDisposable
     {
         public abstract Vector2 Position { get; set; }
+        public abstract Vector2 Speed { get; set; }
         public abstract void Dispose();
-        public abstract void SetPosition(Vector2 pos);
-
+        public abstract void SetValues(Object s, EventArgs e);
     }
 }
