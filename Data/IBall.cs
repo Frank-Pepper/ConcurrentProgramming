@@ -13,6 +13,7 @@ namespace Data
         public abstract Vector2 GetVeolcity();
         public abstract int GetId();
         public abstract int GetR();
+        public abstract int GetM();
         public abstract void SetVelocity(Vector2 sped);
         public abstract event EventHandler<EventArgs>? ChangedPosition;
         public abstract void StartMoving();

@@ -62,6 +62,7 @@ namespace Data
         }
         public override int GetId() { return Id; }
         public override int GetR() {  return R; }
+        public override int GetM() {  return Mass; }
         public override Vector2 GetPosition() { return Position; }
         public override Vector2 GetVeolcity() { return Speed; }
         public override void SetVelocity(Vector2 sped) { Speed = sped; }

@@ -13,7 +13,7 @@ namespace Presentation.Model
         public override int RectangleWidth => 500;
 
         public override int RectangleHeigth => 400;
-        public override int BallRadius => 10;
+        public override int BallRadius => 20;
         public override int BallMass => 5;
         public override List<IPoint> Points { get; set; }
         public IBallManager Manager { get; set; }
