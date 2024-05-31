@@ -13,6 +13,7 @@ namespace Data
         private int R { get; }
         private int Mass { get; }
         private int Id { get; }
+        private long PrevTime;
         private Vector2 Position { get; set; }
         private Vector2 Speed { get; set; }
         private Boolean IsRunning { get; set; }
@@ -25,35 +26,27 @@ namespace Data
             Position = pos;
             Speed = sped;
             IsRunning = true;
-            Thread thread1 = new Thread(StartMoving);
-            thread1.Start();
-            Thread thread2 = new Thread(CheckPosition);
-            thread2.Start();
+            PrevTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            Thread thread = new Thread(StartMoving);
+            thread.IsBackground = true;
+            thread.Start();
         }
 
         private void StartMoving()
         {
             while(IsRunning)
             {
-                lock (lockObject)
-                {
-                    Move();
-                }
-                Thread.Sleep(5);
+                Move();
+                ChangedPosition?.Invoke(this, new EventArgs());
+                Thread.Sleep(1);
             }
         }
 
-        private void Move() { Position += Speed; }
-        private void CheckPosition()
+        private void Move() 
         {
-            while (IsRunning)
-            {
-                lock (lockObject)
-                {
-                    ChangedPosition?.Invoke(this, new EventArgs());
-                }
-                Thread.Sleep(5);
-            }
+            long CurrentTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            Position += Speed * (CurrentTime - PrevTime);
+            PrevTime = CurrentTime;
         }
         public override event EventHandler<EventArgs>? ChangedPosition;
         public override int GetId() { return Id; }

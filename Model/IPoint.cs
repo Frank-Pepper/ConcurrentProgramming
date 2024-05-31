@@ -9,9 +9,9 @@ namespace Presentation.Model
         Double X { get;  }
         Double Y { get; }
         new event PropertyChangedEventHandler? PropertyChanged;
-
+        void SetXScale(double scale);
+        void SetYScale(double scale);
         void NotifyPropertyChanged(string p);
-
         void SetPosition(Vector2 pos);
     }
 }

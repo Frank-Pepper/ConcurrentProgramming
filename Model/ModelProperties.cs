@@ -1,5 +1,6 @@
 ﻿using Logic;
 using System.Collections.ObjectModel;
+using System.Numerics;
 
 namespace Presentation.Model
 {
@@ -20,9 +21,12 @@ namespace Presentation.Model
         public override void StartGame(int BallNumber, ObservableCollection<IPoint> Points)
         {
             List<ILogicBallEvent> lBall = new();
+            Vector2 DataTableSize = Manager.GetTable();
             for (int i = 0; i < BallNumber; i++)
             {
                 lBall.Add(ILogicAPI.GetLogicBallEventSubOnly(Points[i].Position, Points[i].SetPosition));
+                Points[i].SetXScale(RectangleWidth / DataTableSize.X);
+                Points[i].SetYScale(RectangleHeight / DataTableSize.Y);
             }
             Manager.Create(BallNumber, BallRadius, BallMass, lBall);
         }
@@ -34,9 +38,5 @@ namespace Presentation.Model
         {
             Manager.Reset();
         }
-        //public override void Move()
-        //{
-        //    Manager.Move();
-        //}
     }
 }

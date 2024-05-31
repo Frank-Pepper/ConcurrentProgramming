@@ -55,18 +55,24 @@ namespace Logic
                     _balls = points;
                     for (int i = 0; i < number; i++)
                     {
-                        xVelocity = (float)(0.5 * (_random.NextDouble() * 2 - 1));
-                        yVelocity = (float)(0.5 * (_random.NextDouble() * 2 - 1));
+                        xVelocity = (float)(0.25 * (_random.NextDouble() * 2 - 1));
+                        yVelocity = (float)(0.25 * (_random.NextDouble() * 2 - 1));
                         Vector2 pos = _balls[i].Position;
                         Vector2 sped = new Vector2(xVelocity, yVelocity);
                         IBall ball = _api.GetBall(_radius, _mass, i, pos, sped);
-                        ball.ChangedPosition += _balls[i].SetValues;
-                        ball.ChangedPosition += CheckCollisionWithWall;
-                        ball.ChangedPosition += CheckCollisionWithBalls;
+                        ball.ChangedPosition += Subscribe;
                         balls.Add(ball);
                     }
                 }
             }
+        }
+
+        private void Subscribe(object s, EventArgs e)
+        {
+            _balls[((IBall) s).GetId()].SetValues(s, e);
+            CheckCollisionWithWall(s, e);
+            CheckCollisionWithBalls(s, e);
+
         }
 
         private void CheckCollisionWithWall(Object s, EventArgs e)
@@ -76,20 +82,16 @@ namespace Logic
             Vector2 sped = ball.GetVelocity();
             Vector2 npos = pos + sped;
 
-            float newX = npos.X;
-            float newY = npos.Y;
             float newVX = sped.X;
             float newVY = sped.Y;
 
-            if (newX < 0 || newX > _table.GetRectangleWidth() - _radius)
+            if (npos.X < 0 || npos.X > _table.GetRectangleWidth() - _radius)
             {
-                _ = 2 * newVX;
                 newVX = -newVX;
             }
 
-            if (newY < 0 || newY > _table.GetRectangleHeight() - _radius)
+            if (npos.Y < 0 || npos.Y > _table.GetRectangleHeight() - _radius)
             {
-                _ = 2 * newVY;
                 newVY = -newVY;
             }
             sped = new Vector2(newVX, newVY);
@@ -138,6 +140,10 @@ namespace Logic
 
             }
 
+        }
+        public Vector2 GetTable()
+        {
+            return new Vector2(_table.GetRectangleWidth(), _table.GetRectangleHeight());
         }
         public void StopBalls()
         {
