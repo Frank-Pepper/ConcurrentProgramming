@@ -42,7 +42,6 @@ namespace Data
             {
                 ChangedPosition?.Invoke(this, new EventArgs());
                 Move();
-                Logger?.AddBallToQueue(new BallData(Position, Speed, PrevTime, Id));
                 Thread.Sleep(1);
             }
         }
@@ -58,6 +57,10 @@ namespace Data
         public override int GetR() {  return R; }
         public override int GetM() {  return Mass; }
         public override Vector2 GetPosition() { return Position; }
+        public override long GetPreviousTime()
+        {
+            return PrevTime;
+        }
         public override Vector2 GetVelocity() 
         { 
             lock(lockObject)
@@ -69,7 +72,9 @@ namespace Data
         { 
             lock (lockObject)
             {
+                Logger?.AddBallToQueue(new BallData(Position, Speed, PrevTime, Id));
                 Speed = sped;
+                Logger?.AddBallToQueue(new BallData(Position, Speed, PrevTime, Id));
             }
         }
         public override void Dispose()

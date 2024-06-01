@@ -81,7 +81,9 @@ namespace Logic
             IBall ball = (IBall) s;
             Vector2 pos = ball.GetPosition();
             Vector2 sped = ball.GetVelocity();
-            Vector2 npos = pos + sped;
+            long CurrentTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            long PreviousTime = ball.GetPreviousTime(); 
+            Vector2 npos = pos + (sped * (CurrentTime - PreviousTime));
 
             float newVX = sped.X;
             float newVY = sped.Y;
@@ -95,9 +97,11 @@ namespace Logic
             {
                 newVY = -newVY;
             }
-            sped = new Vector2(newVX, newVY);
-            ball.SetVelocity(sped);
-
+            if (newVX != sped.X || newVY != sped.Y)
+            {
+                sped = new Vector2(newVX, newVY);
+                ball.SetVelocity(sped);
+            }
         }
         private void CheckCollisionWithBalls(Object s, EventArgs e)
         {

@@ -14,6 +14,7 @@ namespace Data
         public abstract int GetId();
         public abstract int GetR();
         public abstract int GetM();
+        public abstract long GetPreviousTime();
         public abstract void SetVelocity(Vector2 sped);
         public abstract event EventHandler<EventArgs>? ChangedPosition;
         public abstract void Dispose();
