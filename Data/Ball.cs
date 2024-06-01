@@ -18,7 +18,8 @@ namespace Data
         private Vector2 Speed { get; set; }
         private Boolean IsRunning { get; set; }
         private readonly Object lockObject = new Object();
-        public Ball(int r, int mass, int id, Vector2 pos, Vector2 sped)
+        private readonly LoggerApi? Logger;
+        public Ball(int r, int mass, int id, Vector2 pos, Vector2 sped, LoggerApi? logger = null)
         {
             R = r;
             Mass = mass;
@@ -26,9 +27,12 @@ namespace Data
             Position = pos;
             Speed = sped;
             IsRunning = true;
+            Logger = logger;
             PrevTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            Thread thread = new Thread(StartMoving);
-            thread.IsBackground = true;
+            Thread thread = new Thread(StartMoving)
+            {
+                IsBackground = true
+            };
             thread.Start();
         }
 
@@ -36,8 +40,9 @@ namespace Data
         {
             while(IsRunning)
             {
-                Move();
                 ChangedPosition?.Invoke(this, new EventArgs());
+                Move();
+                Logger?.AddBallToQueue(new BallData(Position, Speed, PrevTime, Id));
                 Thread.Sleep(1);
             }
         }
@@ -53,8 +58,20 @@ namespace Data
         public override int GetR() {  return R; }
         public override int GetM() {  return Mass; }
         public override Vector2 GetPosition() { return Position; }
-        public override Vector2 GetVelocity() { return Speed; }
-        public override void SetVelocity(Vector2 sped) { Speed = sped; }
+        public override Vector2 GetVelocity() 
+        { 
+            lock(lockObject)
+            {
+                return Speed;
+            }
+        }
+        public override void SetVelocity(Vector2 sped) 
+        { 
+            lock (lockObject)
+            {
+                Speed = sped;
+            }
+        }
         public override void Dispose()
         {
             IsRunning = false;

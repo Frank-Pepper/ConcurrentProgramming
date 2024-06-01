@@ -30,6 +30,7 @@ namespace Logic
         }
         public void Create(int number, int radius, int mass, List<ILogicBallEvent> points)
         {
+            LoggerApi logger = _api.GetBallLoger();
             _radius = radius;
             _mass = mass;
             float xVelocity;
@@ -43,7 +44,7 @@ namespace Logic
                     {
                         Vector2 pos = _balls[i].Position;
                         Vector2 sped = _balls[i].Speed;
-                        IBall ball = _api.GetBall(_radius, _mass, i, pos, sped);
+                        IBall ball = _api.GetBall(_radius, _mass, i, pos, sped, logger);
                         ball.ChangedPosition += _balls[i].SetValues;
                         ball.ChangedPosition += CheckCollisionWithWall;
                         ball.ChangedPosition += CheckCollisionWithBalls;
@@ -59,7 +60,7 @@ namespace Logic
                         yVelocity = (float)(0.25 * (_random.NextDouble() * 2 - 1));
                         Vector2 pos = _balls[i].Position;
                         Vector2 sped = new Vector2(xVelocity, yVelocity);
-                        IBall ball = _api.GetBall(_radius, _mass, i, pos, sped);
+                        IBall ball = _api.GetBall(_radius, _mass, i, pos, sped, logger);
                         ball.ChangedPosition += Subscribe;
                         balls.Add(ball);
                     }
