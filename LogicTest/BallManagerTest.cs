@@ -78,6 +78,10 @@ namespace LogicTest
         {
             return Mass;
         }
+        public override long GetPreviousTime()
+        {
+            return 1;
+        }
         public override void SetVelocity(Vector2 sped)
         {
             Speed = sped;
