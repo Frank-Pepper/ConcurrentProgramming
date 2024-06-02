@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Data
 {
-    public struct BallData
+    internal struct BallData
     {
         public int Id;
         public Vector2 Position;

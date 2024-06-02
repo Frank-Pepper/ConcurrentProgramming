@@ -18,8 +18,8 @@ namespace Data
         private Vector2 Speed { get; set; }
         private Boolean IsRunning { get; set; }
         private readonly Object lockObject = new Object();
-        private readonly LoggerApi? Logger;
-        public Ball(int r, int mass, int id, Vector2 pos, Vector2 sped, LoggerApi? logger = null)
+        private readonly Logger? Logger;
+        public Ball(int r, int mass, int id, Vector2 pos, Vector2 sped, Logger? logger = null)
         {
             R = r;
             Mass = mass;
@@ -49,7 +49,7 @@ namespace Data
         private void Move() 
         {
             long CurrentTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            Position += Speed * (CurrentTime - PrevTime);
+            Position += GetVelocity() * (CurrentTime - PrevTime);
             PrevTime = CurrentTime;
         }
         public override event EventHandler<EventArgs>? ChangedPosition;
@@ -72,9 +72,9 @@ namespace Data
         { 
             lock (lockObject)
             {
-                Logger?.AddBallToQueue(new BallData(Position, Speed, PrevTime, Id));
+                Logger?.AddBallToQueue(new BallData(Position, Speed, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), Id));
                 Speed = sped;
-                Logger?.AddBallToQueue(new BallData(Position, Speed, PrevTime, Id));
+                Logger?.AddBallToQueue(new BallData(Position, Speed, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), Id));
             }
         }
         public override void Dispose()

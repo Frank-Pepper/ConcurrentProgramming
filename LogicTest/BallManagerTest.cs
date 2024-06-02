@@ -8,17 +8,11 @@ namespace LogicTest
     internal class TestDataAPI : IDataAPI
     {
         public int GetBallCalls = 0;
-        public IBall GetBall(int r, int mass, int id, Vector2 pos, Vector2 sped, LoggerApi? logger = null)
+        public IBall GetBall(int r, int mass, int id, Vector2 pos, Vector2 sped)
         {
             GetBallCalls++;
             return new TestBall(r, mass, id, pos, sped);
         }
-
-        public LoggerApi GetBallLoger()
-        {
-            return null;
-        }
-
         public ITable GetTable(int width, int height)
         {
             return new TestTable(width, height);

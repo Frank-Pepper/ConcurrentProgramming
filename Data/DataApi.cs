@@ -7,17 +7,14 @@ namespace Data
 {
     internal class DataApi : IDataAPI
     {
-        public IBall GetBall(int r, int mass, int id, Vector2 pos, Vector2 sped, LoggerApi? logger = null)
+        private static readonly Logger _logger = Logger.GetInstance();
+        public IBall GetBall(int r, int mass, int id, Vector2 pos, Vector2 sped)
         {
-            return new Ball(r, mass, id, pos, sped, logger);
+            return new Ball(r, mass, id, pos, sped, _logger);
         }
         public ITable GetTable(int width, int height)
         {
             return new Table(width, height);
-        }
-        public LoggerApi GetBallLoger()
-        {
-            return Logger.GetInstance();
         }
     }
 }

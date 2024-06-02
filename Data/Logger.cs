@@ -9,13 +9,14 @@ using System.Text;
 
 namespace Data
 {
-    internal sealed class Logger : LoggerApi
+    internal sealed class Logger
     {
         private readonly string _logFilePath;
         private readonly ConcurrentQueue<BallData> _ballsDataQueue;
         private readonly JArray _jLogArray = new JArray();
-        private readonly int _queueSize = 100;
+        private readonly int _queueSize = 25;
         private CancellationTokenSource _queChange = new CancellationTokenSource();
+        private bool _queOverflow = false;
         private bool _saveData;
 
         private static Logger? _instance = null;
@@ -36,21 +37,23 @@ namespace Data
             }
 
             _saveData = true;
-            Task.Run(WriteLogDataToFile);
+            Task.Run(CollectData);
         }
 
-        public override void AddBallToQueue(BallData ball)
+        public void AddBallToQueue(BallData ball)
         {
             if (_ballsDataQueue.Count < _queueSize)
             {
                 _ballsDataQueue.Enqueue(ball);
                 _queChange.Cancel();
+            } else
+            {
+                _queOverflow = true;
             }
         }
 
-        private async void WriteLogDataToFile()
+        private async void CollectData()
         {
-            StringBuilder stringBuilder = new StringBuilder();
             while (_saveData)
             {
                 if (!_ballsDataQueue.IsEmpty)
@@ -61,12 +64,20 @@ namespace Data
                         jsonObject["Position"] = serilizedObject.Position.ToString();
                         jsonObject["Speed"] = serilizedObject.Speed.ToString();
                         _jLogArray.Add(jsonObject);
+                        if (_queOverflow)
+                        {
+                            JObject errorMessage = new JObject
+                            {
+                                ["Error"] = "Buffer size is too small skipped logging"
+                            };
+                            _jLogArray.Add(errorMessage);
+                            _queOverflow = false;
+                        }
                     }
-
-                    stringBuilder.Append(JsonConvert.SerializeObject(_jLogArray, Formatting.Indented));
-                    _jLogArray.Clear();
-                    await File.AppendAllTextAsync(_logFilePath, stringBuilder.ToString());
-                    stringBuilder.Clear();
+                    if (_jLogArray.Count > _queueSize / 2)
+                    {
+                        SaveToFile();
+                    }
                 }
                 await Task.Delay(Timeout.Infinite, _queChange.Token).ContinueWith(_ => { });
 
@@ -76,9 +87,13 @@ namespace Data
                 }
             }
         }
-        public override void Dispose()
+        private async void SaveToFile()
         {
-            _saveData = false;
-        }
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append(JsonConvert.SerializeObject(_jLogArray, Formatting.Indented));
+                _jLogArray.Clear();
+                await File.AppendAllTextAsync(_logFilePath, stringBuilder.ToString());
+                stringBuilder.Clear();
+        }   
     }
 }
