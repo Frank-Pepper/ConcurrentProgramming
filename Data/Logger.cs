@@ -12,12 +12,10 @@ namespace Data
     internal sealed class Logger
     {
         private readonly string _logFilePath;
-        private readonly ConcurrentQueue<BallData> _ballsDataQueue;
+        private readonly BlockingCollection<BallData> _ballsDataCollection;
         private readonly JArray _jLogArray = new JArray();
         private readonly int _queueSize = 25;
-        private CancellationTokenSource _queChange = new CancellationTokenSource();
         private bool _queOverflow = false;
-        private bool _saveData;
 
         private static Logger? _instance = null;
         public static Logger GetInstance()
@@ -29,36 +27,31 @@ namespace Data
         {
             string path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName;
             _logFilePath = Path.Combine(path, "BallsLog.json");
-            _ballsDataQueue = new ConcurrentQueue<BallData>();
+            _ballsDataCollection = new BlockingCollection<BallData>(_queueSize);
 
             using (FileStream LogFile = File.Create(_logFilePath))
             {
                 LogFile.Close();
             }
 
-            _saveData = true;
             Task.Run(CollectData);
         }
 
         public void AddBallToQueue(BallData ball)
         {
-            if (_ballsDataQueue.Count < _queueSize)
-            {
-                _ballsDataQueue.Enqueue(ball);
-                _queChange.Cancel();
-            } else
+            if (!_ballsDataCollection.TryAdd(ball))
             {
                 _queOverflow = true;
             }
         }
 
-        private async void CollectData()
+        private void CollectData()
         {
-            while (_saveData)
+            while (true)
             {
-                if (!_ballsDataQueue.IsEmpty)
+                if (!_ballsDataCollection.IsCompleted)
                 {
-                    while (_ballsDataQueue.TryDequeue(out BallData serilizedObject))
+                    while (_ballsDataCollection.TryTake(out BallData serilizedObject, Timeout.Infinite))
                     {
                         JObject jsonObject = JObject.FromObject(serilizedObject);
                         jsonObject["Position"] = serilizedObject.Position.ToString();
@@ -73,17 +66,11 @@ namespace Data
                             _jLogArray.Add(errorMessage);
                             _queOverflow = false;
                         }
+                        if (_jLogArray.Count > _queueSize / 2)
+                        {
+                            SaveToFile();
+                        }
                     }
-                    if (_jLogArray.Count > _queueSize / 2)
-                    {
-                        SaveToFile();
-                    }
-                }
-                await Task.Delay(Timeout.Infinite, _queChange.Token).ContinueWith(_ => { });
-
-                if (_queChange.IsCancellationRequested)
-                {
-                    _queChange = new CancellationTokenSource();
                 }
             }
         }

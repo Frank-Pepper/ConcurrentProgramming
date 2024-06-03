@@ -18,8 +18,8 @@ namespace Data
         private Vector2 Speed { get; set; }
         private Boolean IsRunning { get; set; }
         private readonly Object lockObject = new Object();
-        private readonly Logger? Logger;
-        public Ball(int r, int mass, int id, Vector2 pos, Vector2 sped, Logger? logger = null)
+        private readonly Logger Logger = DataApi._logger;
+        public Ball(int r, int mass, int id, Vector2 pos, Vector2 sped)
         {
             R = r;
             Mass = mass;
@@ -27,7 +27,6 @@ namespace Data
             Position = pos;
             Speed = sped;
             IsRunning = true;
-            Logger = logger;
             PrevTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             Thread thread = new Thread(StartMoving)
             {
@@ -72,9 +71,9 @@ namespace Data
         { 
             lock (lockObject)
             {
-                Logger?.AddBallToQueue(new BallData(Position, Speed, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), Id));
+                Logger.AddBallToQueue(new BallData(Position, Speed, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), Id));
                 Speed = sped;
-                Logger?.AddBallToQueue(new BallData(Position, Speed, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), Id));
+                Logger.AddBallToQueue(new BallData(Position, Speed, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), Id));
             }
         }
         public override void Dispose()
