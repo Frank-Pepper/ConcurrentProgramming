@@ -12,10 +12,13 @@ namespace Data
     internal sealed class Logger
     {
         private readonly string _logFilePath;
-        private readonly BlockingCollection<BallData> _ballsDataCollection;
+        private readonly ConcurrentQueue<BallData> _ballsDataQueue;
         private readonly JArray _jLogArray = new JArray();
         private readonly int _queueSize = 25;
+        private readonly Object lockObject = new Object();
+        private CancellationTokenSource _queChange = new CancellationTokenSource();
         private bool _queOverflow = false;
+        private bool _saveData;
 
         private static Logger? _instance = null;
         public static Logger GetInstance()
@@ -27,31 +30,40 @@ namespace Data
         {
             string path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName;
             _logFilePath = Path.Combine(path, "BallsLog.json");
-            _ballsDataCollection = new BlockingCollection<BallData>(_queueSize);
+            _ballsDataQueue = new ConcurrentQueue<BallData>();
 
             using (FileStream LogFile = File.Create(_logFilePath))
             {
                 LogFile.Close();
             }
 
+            _saveData = true;
             Task.Run(CollectData);
         }
 
         public void AddBallToQueue(BallData ball)
         {
-            if (!_ballsDataCollection.TryAdd(ball))
+            lock(lockObject)
             {
-                _queOverflow = true;
+                if (_ballsDataQueue.Count < _queueSize)
+                {
+                    _ballsDataQueue.Enqueue(ball);
+                    _queChange.Cancel();
+                }
+                else
+                {
+                    _queOverflow = true;
+                }
             }
         }
 
-        private void CollectData()
+        private async void CollectData()
         {
-            while (true)
+            while (_saveData)
             {
-                if (!_ballsDataCollection.IsCompleted)
+                if (!_ballsDataQueue.IsEmpty)
                 {
-                    while (_ballsDataCollection.TryTake(out BallData serilizedObject, Timeout.Infinite))
+                    while (_ballsDataQueue.TryDequeue(out BallData serilizedObject))
                     {
                         JObject jsonObject = JObject.FromObject(serilizedObject);
                         jsonObject["Position"] = serilizedObject.Position.ToString();
@@ -66,21 +78,27 @@ namespace Data
                             _jLogArray.Add(errorMessage);
                             _queOverflow = false;
                         }
-                        if (_jLogArray.Count > _queueSize / 2)
-                        {
-                            SaveToFile();
-                        }
                     }
+                    if (_jLogArray.Count > _queueSize / 2)
+                    {
+                        SaveToFile();
+                    }
+                }
+                await Task.Delay(Timeout.Infinite, _queChange.Token).ContinueWith(_ => { });
+
+                if (_queChange.IsCancellationRequested)
+                {
+                    _queChange = new CancellationTokenSource();
                 }
             }
         }
         private async void SaveToFile()
         {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(JsonConvert.SerializeObject(_jLogArray, Formatting.Indented));
-                _jLogArray.Clear();
-                await File.AppendAllTextAsync(_logFilePath, stringBuilder.ToString());
-                stringBuilder.Clear();
-        }   
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(JsonConvert.SerializeObject(_jLogArray, Formatting.Indented));
+            _jLogArray.Clear();
+            await File.AppendAllTextAsync(_logFilePath, stringBuilder.ToString());
+            stringBuilder.Clear();
+        }
     }
 }
