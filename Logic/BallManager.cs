@@ -30,6 +30,10 @@ namespace Logic
         }
         public void Create(int number, int radius, int mass, List<ILogicBallEvent> points)
         {
+            if (points.Count == balls.Count)
+            {
+                return;
+            }
             _radius = radius;
             _mass = mass;
             float xVelocity;
