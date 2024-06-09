@@ -76,7 +76,10 @@ namespace Data
                                 ["Error"] = "Buffer size is too small skipped logging"
                             };
                             _jLogArray.Add(errorMessage);
-                            _queOverflow = false;
+                            lock (lockObject)
+                            {
+                                _queOverflow = false;
+                            }
                         }
                     }
                     if (_jLogArray.Count > _queueSize / 2)
@@ -97,7 +100,7 @@ namespace Data
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(JsonConvert.SerializeObject(_jLogArray, Formatting.Indented));
             _jLogArray.Clear();
-            await File.AppendAllTextAsync(_logFilePath, stringBuilder.ToString());
+            await File.AppendAllTextAsync(_logFilePath, stringBuilder.ToString(), Encoding.UTF8);
             stringBuilder.Clear();
         }
     }

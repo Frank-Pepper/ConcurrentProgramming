@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Data
 {
-    internal struct BallData
+    internal readonly struct BallData
     {
-        public int Id;
-        public Vector2 Position;
-        public Vector2 Speed;
-        public long Timestamp;
+        public int Id { get; }
+        public Vector2 Position { get; }
+        public Vector2 Speed { get; }
+        public long Timestamp { get; }
         public BallData(Vector2 pos, Vector2 sped, long timestamp, int id) 
         {
             Position = pos;
