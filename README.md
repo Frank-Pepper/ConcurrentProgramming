@@ -1,6 +1,6 @@
-# Concurrent programming
+# Concurrent programming :moyai:
 
-## Working Group
+## Working Group :moyai:
 
 | Name Surname (initials)              | GUID                                     |
 | ------------------------------------ | ---------------------------------------- |
